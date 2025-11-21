@@ -13,7 +13,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_start_button_pressed() -> void:
-	var startup_timer = 2
+	var startup_timer = 3
 	$"Start Button".hide()
 	$"Start Countdown".show()
 	$"Start Countdown/Start Countdown Timer".start(startup_timer)
