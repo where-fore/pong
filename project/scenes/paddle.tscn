@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx8j7svrtatrd"]
+
+[ext_resource type="Script" uid="uid://bdqoaeqdll676" path="res://scripts/paddle.gd" id="1_2bcmx"]
+[ext_resource type="Texture2D" uid="uid://dvb3myod7j7ub" path="res://sprites/paddle.png" id="1_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://cccbrel16xwe8" path="res://sprites/paddletop.png" id="2_hqtel"]
+[ext_resource type="Texture2D" uid="uid://5rsgjv3l81r" path="res://sprites/paddlebottom.png" id="3_sweqy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2hs0m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_i3pqv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hqtel")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_sweqy")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jxqw"]
+radius = 11.5
+height = 96.0
+
+[node name="Area2D" type="Area2D"]
+script = ExtResource("1_2bcmx")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_2hs0m")
+animation = &"down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-55, 0)
+scale = Vector2(1.8, 1)
+shape = SubResource("CapsuleShape2D_1jxqw")

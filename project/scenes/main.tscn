@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://b821myv7hqira"]
+
+[ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://scenes/ball.tscn" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://bhhcr0tk2y0iq" path="res://scripts/main.gd" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://scenes/paddle.tscn" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://bmed41fkbopnt" path="res://scenes/hud.tscn" id="4_jyhfs"]
+
+[node name="Main" type="Node" groups=["Bounce Wall", "Paddle"]]
+script = ExtResource("1_tbgi4")
+ball_scene = ExtResource("1_0xm2m")
+
+[node name="Player Paddle" parent="." groups=["Keys Paddle", "Paddle"] instance=ExtResource("2_h2yge")]
+position = Vector2(100, 360)
+
+[node name="Enemy Paddle" parent="." groups=["Cursor Paddle", "Paddle"] instance=ExtResource("2_h2yge")]
+position = Vector2(1180, 360)
+rotation = -3.1415925
+
+[node name="Top Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("3_sugp2")]
+position = Vector2(640, -360)
+
+[node name="Right Wall" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(2000, 360)
+rotation = 1.5707964
+scale = Vector2(5, 2)
+
+[node name="Left Wall" parent="." instance=ExtResource("3_sugp2")]
+position = Vector2(-720, 360)
+rotation = 1.5707964
+scale = Vector2(5, 2)
+
+[node name="Bottom Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("3_sugp2")]
+position = Vector2(640, 1080)
+
+[node name="HUD" parent="." instance=ExtResource("4_jyhfs")]
+
+[node name="Ball Spawn" type="Marker2D" parent="."]
+position = Vector2(640, 360)
+
+[connection signal="scored" from="Right Wall" to="." method="_on_right_wall_scored"]
+[connection signal="scored" from="Right Wall" to="HUD" method="_on_right_wall_scored"]
+[connection signal="scored" from="Left Wall" to="." method="_on_left_wall_scored"]
+[connection signal="scored" from="Left Wall" to="HUD" method="_on_left_wall_scored"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
