@@ -1,3 +1,6 @@
+# directly yoinked from https://negrete.dev/, from the following tutorial:
+# http://angelicgarbage.com/posts/how-to-deploy-a-godot-4-game-to-github-pages/
+
 name: "Publish to GitHub Pages"
 
 env:
