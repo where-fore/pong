@@ -1,0 +1,22 @@
+pong to do
+
+decide on scope creep: add my own juice, sprites (background+better current ones), look at other pongs/block breakers for inspiration, some unique flavour like fireball wizards or lightning bolt mirrors or something else reflected/shot, others
+
+taylor feedback:
+after lots of play they started to really enjoy seeing how high they could go in bounces, so a high score counter would be awesome. show current bounces, max high score, maybe current speed or time too
+was interested in a bit more variability to the bounce, since it's currently completely static. maybe add more pitch based on how far from center the ball was hit
+	- can then add some power-ups or other enviornmental interactions
+		- power-ups like larger paddle, multi-ball where only one ball is real, and more examples from brick breakers
+when asked about aesthetics, wizards+fireball/lightning, and cats+yarn ball were both well received
+wanted a pause menu, of course
+
+to do:
+-pause menu
+-high score (current speed? max speed? max bounces?)
+-other jazz:
+	-settings menu
+	-new sprites
+	-animations (ball spin on bounce?, ball pulse when preparing to fire?)
+	
+-tune ball movement? currently starts a bit slow and ramps a bit too fast, maybe higher starting speed and lower accel? maybe this is what i want. codifying gameplay pattern goal
+	
