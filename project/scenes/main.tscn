@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b821myv7hqira"]
+[gd_scene load_steps=7 format=3 uid="uid://b821myv7hqira"]
 
 [ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://scenes/ball.tscn" id="1_0xm2m"]
 [ext_resource type="Script" uid="uid://bhhcr0tk2y0iq" path="res://scripts/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://scenes/paddle.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://bmed41fkbopnt" path="res://scenes/hud.tscn" id="4_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bjbn4uxeicuul" path="res://scenes/pause_menu.tscn" id="6_tefeu"]
 
 [node name="Main" type="Node" groups=["Bounce Wall", "Paddle"]]
 script = ExtResource("1_tbgi4")
@@ -34,6 +35,8 @@ scale = Vector2(5, 2)
 position = Vector2(640, 1080)
 
 [node name="HUD" parent="." instance=ExtResource("4_jyhfs")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("6_tefeu")]
 
 [node name="Ball Spawn" type="Marker2D" parent="."]
 position = Vector2(640, 360)

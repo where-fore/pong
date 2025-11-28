@@ -14,7 +14,7 @@ to do:
 -pause menu
 -high score (current speed? max speed? max bounces?)
 -other jazz:
-	-settings menu
+	-settings menu -> maybe have presets? "basic 45", "basic angled rebound"
 	-new sprites
 	-animations (ball spin on bounce?, ball pulse when preparing to fire?)
 	
