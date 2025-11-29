@@ -3,6 +3,7 @@ extends Area2D
 var paddle_speed_factor = 500
 var screen_size = 0
 var paddle_type = "Keys"
+var paddle_disabled_on_collision_for = 0.2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -42,3 +43,10 @@ func _process(delta: float) -> void:
 	position += velocity * delta
 	var paddle_size = $CollisionShape2D.shape.get_rect().size
 	position = position.clamp(Vector2.ZERO+paddle_size/2, (screen_size - paddle_size/2))
+
+#disable paddle for a bit to make sure there's no shennanigans
+func _on_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Ball"):
+		$CollisionShape2D.disabled = true
+		await get_tree().create_timer(paddle_disabled_on_collision_for).timeout
+		$CollisionShape2D.disabled = false

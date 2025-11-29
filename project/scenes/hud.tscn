@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bmed41fkbopnt"]
+[gd_scene load_steps=12 format=3 uid="uid://bmed41fkbopnt"]
 
 [ext_resource type="Texture2D" uid="uid://diiudllnj1uxn" path="res://sprites/button.png" id="1_oo0fn"]
 [ext_resource type="Script" uid="uid://b0brhoy03ctsb" path="res://scripts/hud.gd" id="1_uo2fv"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cafly83pf77ng" path="res://sprites/buttonhovered.png" id="4_hd3ao"]
 [ext_resource type="Script" uid="uid://cx4sjd1yn5jms" path="res://scripts/start_countdown.gd" id="5_hd3ao"]
 [ext_resource type="Texture2D" uid="uid://df648unlk73sg" path="res://sprites/keys.png" id="6_5pdws"]
+[ext_resource type="Texture2D" uid="uid://dgnm4lqdaw24t" path="res://sprites/bounce.png" id="9_0i1j5"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_5pdws"]
 action = &"start_game"
@@ -87,8 +88,8 @@ anchor_left = 0.5
 anchor_top = 0.01
 anchor_right = 0.5
 anchor_bottom = 0.01
-offset_left = -140.0
-offset_right = -60.0
+offset_left = -180.0
+offset_right = -100.0
 offset_bottom = 80.0
 grow_horizontal = 2
 pivot_offset = Vector2(40, 40)
@@ -107,7 +108,7 @@ offset_right = 56.0
 offset_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
 [node name="Cursor Score Icon" type="TextureRect" parent="."]
@@ -116,14 +117,43 @@ anchor_left = 0.5
 anchor_top = 0.01
 anchor_right = 0.5
 anchor_bottom = 0.01
-offset_left = 60.0
-offset_right = 140.0
+offset_left = 100.0
+offset_right = 180.0
 offset_bottom = 80.0
 grow_horizontal = 2
 pivot_offset = Vector2(40, 40)
 texture = ExtResource("4_6fi6k")
 
 [node name="Cursor Score Label" type="Label" parent="Cursor Score Icon"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -5.0
+offset_right = 16.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+
+[node name="Bounce Count Icon" type="TextureRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+offset_left = -40.0
+offset_right = 40.0
+offset_bottom = 80.0
+grow_horizontal = 2
+pivot_offset = Vector2(40, 40)
+texture = ExtResource("9_0i1j5")
+
+[node name="Bounce Count Label" type="Label" parent="Bounce Count Icon"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5

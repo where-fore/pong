@@ -32,8 +32,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1jxqw"]
-radius = 11.5
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pacq5"]
+radius = 12.0
 height = 96.0
 
 [node name="Area2D" type="Area2D"]
@@ -46,6 +46,5 @@ sprite_frames = SubResource("SpriteFrames_2hs0m")
 animation = &"down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-55, 0)
-scale = Vector2(1.8, 1)
-shape = SubResource("CapsuleShape2D_1jxqw")
+position = Vector2(-44, 0)
+shape = SubResource("CapsuleShape2D_pacq5")

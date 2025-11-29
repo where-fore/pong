@@ -2,11 +2,12 @@ extends Area2D
 
 signal destroyed
 var velocity = Vector2.ZERO #instantiates
+var bounce_count_parent
 
 #base ball settings
 var ball_speed = 600
 var random_starting_direction_tilt = 0.3 # how far from horizontal to start the ball moving
-var rotational_speed_factor = 0.005
+var rotational_speed_factor = 0.008
 var ball_spawn_shoot_delay = 2.2
 var ball_pulse_growth_factor = 2
 
@@ -27,17 +28,7 @@ var clamp_rebound_edge_max = 0.85
 func _ready() -> void:
 	add_to_group("Ball")
 	
-	#pulsate a bit for fun
-	var base_scale = $Sprite2D.scale
-	
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_EXPO)
-	tween.set_ease(Tween.EASE_IN)
-	tween.tween_property($Sprite2D, "scale", base_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
-	tween.tween_property($Sprite2D, "scale", base_scale, ball_spawn_shoot_delay/2)
-	await tween.finished
-	#okay shoot the ball now
-	
+	#set up a random direction and angle
 	var up_or_down = randi_range(0,1)
 	if up_or_down == 0: up_or_down = -1
 	var random_tilt = randf_range(0.1, 0.1+random_starting_direction_tilt)
@@ -47,6 +38,9 @@ func _ready() -> void:
 	
 	velocity = Vector2.LEFT*left_or_right + Vector2.UP*up_or_down*random_tilt
 	velocity *= ball_speed
+	
+	#animate then fire
+	drop_in()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -75,6 +69,8 @@ func _on_area_entered(area: Area2D) -> void:
 
 		velocity *= Vector2(-1,1) #basic reverse direction
 		
+		HudEvents.ball_bounced.emit()
+		
 	elif area.is_in_group("Bounce Wall"):
 		velocity *= Vector2(1,-1)
 	
@@ -87,3 +83,19 @@ func _on_area_entered(area: Area2D) -> void:
 func _on_timer_timeout() -> void:
 	emit_signal("destroyed")
 	queue_free()
+
+func drop_in():
+	$Timer.start() #restart collision timer
+	
+	var base_scale = $Sprite2D.scale
+	var base_velocity = velocity
+	velocity = Vector2.ZERO
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.set_ease(Tween.EASE_IN)
+	tween.tween_property($Sprite2D, "scale", base_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
+	tween.tween_property($Sprite2D, "scale", base_scale, ball_spawn_shoot_delay/2)
+	await tween.finished
+	velocity = base_velocity
+	
+	$Timer.start() #restart collision timer

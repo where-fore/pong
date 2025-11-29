@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://11470xbglot3" path="res://sprites/ball.png" id="1_x8fbi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x8fbi"]
-radius = 4.25
+radius = 4.0
 
 [node name="Area2D" type="Area2D"]
 collision_mask = 3
