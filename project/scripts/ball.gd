@@ -6,6 +6,9 @@ var velocity = Vector2.ZERO #instantiates
 #base ball settings
 var ball_speed = 600
 var random_starting_direction_tilt = 0.3 # how far from horizontal to start the ball moving
+var rotational_speed_factor = 0.005
+var ball_spawn_shoot_delay = 2.2
+var ball_pulse_growth_factor = 2
 
 #acceleration on paddle bounce
 var acceleration_factor = 1.08 #to give the game a ramping time limit
@@ -24,9 +27,16 @@ var clamp_rebound_edge_max = 0.85
 func _ready() -> void:
 	add_to_group("Ball")
 	
-	#shoot ball, in a bit of a random direction after a delay
-	var ball_spawn_shoot_delay = 2
-	await get_tree().create_timer(ball_spawn_shoot_delay).timeout
+	#pulsate a bit for fun
+	var base_scale = $Sprite2D.scale
+	
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.set_ease(Tween.EASE_IN)
+	tween.tween_property($Sprite2D, "scale", base_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
+	tween.tween_property($Sprite2D, "scale", base_scale, ball_spawn_shoot_delay/2)
+	await tween.finished
+	#okay shoot the ball now
 	
 	var up_or_down = randi_range(0,1)
 	if up_or_down == 0: up_or_down = -1
@@ -41,6 +51,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	position += velocity * delta
+	rotation_degrees += rotational_speed_factor*velocity.x
 	
 
 func _on_area_entered(area: Area2D) -> void:

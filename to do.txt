@@ -11,12 +11,13 @@ when asked about aesthetics, wizards+fireball/lightning, and cats+yarn ball were
 wanted a pause menu, of course
 
 to do:
--pause menu
--high score (current speed? max speed? max bounces?)
+solo mode: 45 degrees bounces, ui tracks highest bounce record
+competitive mode: non-45 bounces, ui tracks score and highest bounce record
+	-competitive, choose ai or local multiplayer
+
 -other jazz:
 	-settings menu -> maybe have presets? "basic 45", "basic angled rebound"
 	-new sprites
-	-animations (ball spin on bounce?, ball pulse when preparing to fire?)
 	
 -tune ball movement? currently starts a bit slow and ramps a bit too fast, maybe higher starting speed and lower accel? maybe this is what i want. codifying gameplay pattern goal
 	
