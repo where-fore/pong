@@ -14,7 +14,7 @@ ball_scene = ExtResource("1_0xm2m")
 [node name="Player Paddle" parent="." groups=["Keys Paddle", "Paddle"] instance=ExtResource("2_h2yge")]
 position = Vector2(100, 360)
 
-[node name="Enemy Paddle" parent="." groups=["Cursor Paddle", "Paddle"] instance=ExtResource("2_h2yge")]
+[node name="Enemy Paddle" parent="." groups=["Cursor Paddle", "Paddle", "Right Paddle"] instance=ExtResource("2_h2yge")]
 position = Vector2(1180, 360)
 rotation = -3.1415925
 

@@ -29,6 +29,14 @@ window/stretch/mode="canvas_items"
 
 movie_writer/movie_file="C:/Repos/godot20/Pong/project/recordings/debug.avi"
 
+[global_group]
+
+"AI Paddle"="Paddle controlled by AI"
+"Keys Paddle"="Paddle controlled by the keyboard"
+"Cursor Paddle"="Paddle controlled by the cursor"
+"Bounce Wall"="Wall that should reflect balls"
+"Right Paddle"="Paddle on the right hand side"
+
 [gui]
 
 theme/custom="uid://wymfijcko1gs"
