@@ -11,7 +11,7 @@ var original_scale
 var pulse_scale_factor = 1.75
 
 
-var startup_timer = 7 #countdown to start the game
+var startup_timer = 10 #countdown to start the game
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
