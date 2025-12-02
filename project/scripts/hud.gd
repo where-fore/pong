@@ -10,6 +10,9 @@ var pulse_tween : Tween = null
 var original_scale
 var pulse_scale_factor = 1.75
 
+
+var startup_timer = 10 #countdown to start the game
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	HudEvents.ball_bounced.connect(_on_ball_bounced)
@@ -31,7 +34,6 @@ func _process(_delta: float) -> void:
 
 
 func _on_start_button_pressed() -> void:
-	var startup_timer = 3
 	$"Start Button".hide()
 	$"Start Countdown".show()
 	$"Start Countdown/Start Countdown Timer".start(startup_timer)

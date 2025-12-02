@@ -11,13 +11,21 @@ when asked about aesthetics, wizards+fireball/lightning, and cats+yarn ball were
 wanted a pause menu, of course
 
 to do:
-solo mode: 45 degrees bounces, ui tracks highest bounce record
+solo mode: 45 degrees bounces, ui tracks highest bounce record. either mouse or keyboard controls
 competitive mode: non-45 bounces, ui tracks score and highest bounce record
 	-competitive, choose ai or local multiplayer
 
 -other jazz:
 	-settings menu -> maybe have presets? "basic 45", "basic angled rebound"
 	-new sprites
-	
--tune ball movement? currently starts a bit slow and ramps a bit too fast, maybe higher starting speed and lower accel? maybe this is what i want. codifying gameplay pattern goal
-	
+
+the bounce count font looks a little ass - not sure why.. scale? just is bad at high size? seems blurry around the edges
+
+maybe implement those collision raycasts to improve high speed collisions (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
+or just restructure to rigidbody/character controllers
+
+ui - maybe the score ui should be a hcontainer, one for each vcontainer with a texture and a label
+
+start game -> screen with game options (vs ai, local multiplayer, vs self) (maybe with game being played in the background with 2 ai) (probably a different scene)
+choose a button, removes the rest of the ui, shows a little popup on the side of the paddle with your available controls, begins
+pause menu can take you back to main menu anytime
