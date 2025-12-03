@@ -36,6 +36,7 @@ movie_writer/movie_file="C:/Repos/godot20/Pong/project/recordings/debug.avi"
 "Cursor Paddle"="Paddle controlled by the cursor"
 "Bounce Wall"="Wall that should reflect balls"
 "Right Paddle"="Paddle on the right hand side"
+Ball="It's a ball"
 
 [gui]
 

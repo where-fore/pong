@@ -23,6 +23,9 @@ var rebound_angle_factor = 0.5
 var clamp_rebound_edges = true
 var clamp_rebound_edge_max = 0.85 
 
+#raycast
+var has_child_reflection = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -44,9 +47,26 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	#move the ball
 	position += velocity * delta
-	rotation_degrees += rotational_speed_factor*velocity.x
 	
+	#spin the ball's sprite for fun
+	$Sprite2D.rotation_degrees += rotational_speed_factor*velocity.x
+	
+	#match the raycast to the direction of travel
+	$RayCast2D.rotation = velocity.angle() - PI/2
+
+
+func _physics_process(_delta: float) -> void:
+	if $RayCast2D.is_colliding() and not has_child_reflection:
+		pass
+
+
+func createNewRay():
+	has_child_reflection = true
+	
+	
+
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Paddle"):

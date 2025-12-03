@@ -20,6 +20,7 @@ rotation = -3.1415925
 
 [node name="Top Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("3_sugp2")]
 position = Vector2(640, -360)
+collision_layer = 3
 
 [node name="Right Wall" parent="." instance=ExtResource("3_sugp2")]
 position = Vector2(2000, 360)
@@ -33,6 +34,7 @@ scale = Vector2(5, 2)
 
 [node name="Bottom Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("3_sugp2")]
 position = Vector2(640, 1080)
+collision_layer = 3
 
 [node name="HUD" parent="." instance=ExtResource("4_jyhfs")]
 

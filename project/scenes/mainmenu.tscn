@@ -5,11 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://scenes/paddle.tscn" id="3_85riq"]
 [ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="4_wf3n4"]
 
-[node name="MainMenu" type="Node" groups=["Bounce Wall", "Paddle"]]
+[node name="MainMenu" type="Node"]
 script = ExtResource("1_7yvfd")
 ball_scene = ExtResource("2_dfy5j")
 
-[node name="Left Paddle" parent="." groups=["AI Paddle", "Paddle"] instance=ExtResource("3_85riq")]
+[node name="Left Paddle" parent="." groups=["Cursor Paddle", "Paddle"] instance=ExtResource("3_85riq")]
 position = Vector2(100, 360)
 
 [node name="Right Paddle" parent="." groups=["AI Paddle", "Paddle", "Right Paddle"] instance=ExtResource("3_85riq")]
@@ -29,6 +29,7 @@ scale = Vector2(5, 2)
 
 [node name="Bottom Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("4_wf3n4")]
 position = Vector2(640, 1080)
+collision_layer = 3
 
 [node name="Left Wall" parent="." instance=ExtResource("4_wf3n4")]
 position = Vector2(-720, 360)
@@ -37,6 +38,7 @@ scale = Vector2(5, 2)
 
 [node name="Top Wall" parent="." groups=["Bounce Wall"] instance=ExtResource("4_wf3n4")]
 position = Vector2(640, -360)
+collision_layer = 3
 
 [connection signal="scored" from="Right Wall" to="." method="_on_right_wall_scored"]
 [connection signal="scored" from="Left Wall" to="." method="_on_left_wall_scored"]
