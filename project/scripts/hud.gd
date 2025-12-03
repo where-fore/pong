@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-signal start_game
 var max_bounces = 0
 var bounces_this_set = 0
 var has_played_more_than_one_set = false #don't want to pulse the score on first play
@@ -10,8 +9,6 @@ var pulse_tween : Tween = null
 var original_scale
 var pulse_scale_factor = 1.75
 
-
-var startup_timer = 3 #countdown to start the game
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,18 +28,6 @@ func _process(_delta: float) -> void:
 	elif not score_should_pulse:
 		if pulse_tween:
 			end_pulse()
-
-
-func _on_start_button_pressed() -> void:
-	$"Start Button".hide()
-	$"Start Countdown".show()
-	$"Start Countdown/Start Countdown Timer".start(startup_timer)
-	await get_tree().create_timer(startup_timer).timeout #nothing to wait for
-	emit_signal("start_game")
-
-
-func _on_start_countdown_timer_timeout() -> void:
-	$"Start Countdown".hide()
 
 
 func _on_right_wall_scored() -> void:
@@ -75,15 +60,17 @@ func _on_ball_bounced():
 	
 
 func start_pulse():
+	var to_pulse = $"Bounce Count Icon/Bounce Count Label"
 	pulse_tween = create_tween()
 	pulse_tween.set_trans(Tween.TRANS_SINE)
 	pulse_tween.set_ease(Tween.EASE_IN_OUT)
-	pulse_tween.tween_property($"Bounce Count Icon/Bounce Count Label", "scale", original_scale*pulse_scale_factor, 0.5)
-	pulse_tween.tween_property($"Bounce Count Icon/Bounce Count Label", "scale", original_scale, 0.5)
+	pulse_tween.tween_property(to_pulse, "scale", original_scale*pulse_scale_factor, 0.5)
+	pulse_tween.tween_property(to_pulse, "scale", original_scale, 0.5)
 	pulse_tween.set_loops() #infinite
 	
 	
 func end_pulse():
+	var to_pulse = $"Bounce Count Icon/Bounce Count Label"
 	pulse_tween.kill()
 	pulse_tween = null
-	$"Bounce Count Icon/Bounce Count Label".scale = original_scale
+	to_pulse.scale = original_scale

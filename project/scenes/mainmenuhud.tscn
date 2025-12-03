@@ -1,0 +1,79 @@
+[gd_scene load_steps=9 format=3 uid="uid://csfk1wffs0lw3"]
+
+[ext_resource type="Script" uid="uid://b0brhoy03ctsb" path="res://scripts/hud.gd" id="1_er17l"]
+[ext_resource type="Texture2D" uid="uid://diiudllnj1uxn" path="res://sprites/button.png" id="2_558sp"]
+[ext_resource type="Texture2D" uid="uid://cfx885gna44a6" path="res://sprites/buttonpressed.png" id="3_0m2xx"]
+[ext_resource type="Texture2D" uid="uid://cafly83pf77ng" path="res://sprites/buttonhovered.png" id="4_6lya0"]
+[ext_resource type="Script" uid="uid://bc3i8uiofplry" path="res://scripts/start_button.gd" id="5_42q8f"]
+[ext_resource type="Script" uid="uid://cx4sjd1yn5jms" path="res://scripts/start_countdown.gd" id="6_8tnh8"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_5pdws"]
+action = &"start_game"
+
+[sub_resource type="Shortcut" id="Shortcut_hd3ao"]
+events = [SubResource("InputEventAction_5pdws")]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_er17l")
+
+[node name="Start Button" type="TextureButton" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 256.0
+grow_horizontal = 2
+toggle_mode = true
+shortcut = SubResource("Shortcut_hd3ao")
+shortcut_in_tooltip = false
+texture_normal = ExtResource("2_558sp")
+texture_pressed = ExtResource("3_0m2xx")
+texture_hover = ExtResource("4_6lya0")
+stretch_mode = 0
+script = ExtResource("5_42q8f")
+
+[node name="Start Button Text" type="Label" parent="Start Button"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+grow_horizontal = 2
+grow_vertical = 2
+text = "Begin
+The Pong"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start Countdown" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.5
+offset_top = -121.0
+offset_right = 8.5
+offset_bottom = -79.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.93333334)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 3
+theme_override_constants/shadow_outline_size = 3
+theme_override_font_sizes/font_size = 48
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("6_8tnh8")
+
+[node name="Start Countdown Timer" type="Timer" parent="Start Countdown"]
+one_shot = true
+
+[connection signal="pressed" from="Start Button" to="." method="_on_start_button_pressed"]
+[connection signal="timeout" from="Start Countdown/Start Countdown Timer" to="." method="_on_start_countdown_timer_timeout"]

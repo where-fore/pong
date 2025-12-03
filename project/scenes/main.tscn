@@ -47,4 +47,3 @@ position = Vector2(640, 360)
 [connection signal="scored" from="Right Wall" to="HUD" method="_on_right_wall_scored"]
 [connection signal="scored" from="Left Wall" to="." method="_on_left_wall_scored"]
 [connection signal="scored" from="Left Wall" to="HUD" method="_on_left_wall_scored"]
-[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
