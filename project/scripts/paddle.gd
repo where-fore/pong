@@ -11,8 +11,8 @@ var reaction_time_remaining = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size #going to use later for clamping
-	paddle_size = $CollisionShape2D.shape.get_rect().size	
-	
+	paddle_size = $CollisionShape2D.shape.get_rect().size
+
 	if is_in_group("Right Paddle"):
 		$AnimatedSprite2D.flip_v = true #because the node in scene is just rotated 180 degrees
 
