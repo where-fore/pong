@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b61yo3li5q05y"]
+[gd_scene load_steps=7 format=3 uid="uid://b61yo3li5q05y"]
 
 [ext_resource type="Script" uid="uid://bhhcr0tk2y0iq" path="res://scripts/main.gd" id="1_oa1go"]
 [ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://scenes/ball.tscn" id="2_tbmy8"]
 [ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://scenes/paddle.tscn" id="3_jk1qb"]
 [ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="4_5dd4i"]
 [ext_resource type="PackedScene" uid="uid://csfk1wffs0lw3" path="res://scenes/main_menu_hud.tscn" id="5_lgwnu"]
-[ext_resource type="Script" uid="uid://nndwlut1ldef" path="res://scripts/main_menu_hud.gd" id="6_flqon"]
 [ext_resource type="Script" uid="uid://4lecr4s4mx6p" path="res://scripts/main_menu_camera.gd" id="7_rcqid"]
 
 [node name="MainMenu" type="Node"]
@@ -41,9 +40,6 @@ position = Vector2(640, -360)
 collision_layer = 3
 
 [node name="Main Menu Hud" parent="." instance=ExtResource("5_lgwnu")]
-script = ExtResource("6_flqon")
-solo_play_scene = "uid://dqxuyi8lx6pw4"
-multi_play_scene = "uid://b821myv7hqira"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)

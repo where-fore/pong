@@ -19,16 +19,8 @@ competitive mode: non-45 bounces, ui tracks score and highest bounce record
 	-settings menu -> maybe have presets? "basic 45", "basic angled rebound"
 	-new sprites
 
+
 the bounce count font looks a little ass - not sure why.. scale? just is bad at high size? seems blurry around the edges
-
-maybe implement those collision raycasts to improve high speed collisions (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
-or just restructure to rigidbody/character controllers
-
-ui - maybe the score ui should be a hcontainer, one for each vcontainer with a texture and a label
-
-start game -> screen with game options (vs ai, local multiplayer, vs self) (maybe with game being played in the background with 2 ai) (probably a different scene)
-choose a button, removes the rest of the ui, shows a little popup on the side of the paddle with your available controls, begins
-pause menu can take you back to main menu anytime
 
 
 ai: try to get some sort of variation so the main menu looks for dynamic, some sort of reaction speed based movement - or maybe some +- error in its angle calculations? maybe do some smarter raycast stuff https://www.youtube.com/watch?v=tjSuQzbarAQ?
@@ -37,4 +29,11 @@ currently i like how to beat the ai you have to think ahead, since it primitivel
 
 make main menu not weird: change the first pan/zoom to a set angle as the game starts; add a texture to the walls so it makes sense when not screen fit; add some sort of transition/fade to the actual game so it's not so abrupt (probably fade asap on button press, and 3s countdown on main scene load)
 
-decide how to implement game mode select - two different scenes or same scene and set paddle groups on open. two different scenes seems easier, and keeps the games a bit separate if i want to make any sort of changes local to either. have them be different also means making changes i want in both is more cumbersome (if the changes aren't to do with child scenes). same scene seems like more reasonable? the game mode simply changes a few settings, no need to maintain a whole different scene for it
+
+improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
+or just restructure to rigidbody/character controllers
+or elsewise
+(also maybe increase the time-the-paddle-stays-uncollidable, it seems a bit short)
+
+
+new sprites?

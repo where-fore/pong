@@ -55,7 +55,13 @@ func _process(delta: float) -> void:
 	
 	#match the raycast to the direction of travel
 	$RayCast2D.rotation = velocity.angle() - PI/2
-
+	
+	#match the capsule path to the velocity
+	var trail = $"Capsule Trail Pivot/Capsule Trail"
+	var working_velocity = velocity.length()*delta + trail.shape.radius*2
+	trail.shape.set_height(working_velocity)
+	trail.position.y = trail.shape.height/2 - trail.shape.radius/2
+	$"Capsule Trail Pivot".rotation = velocity.angle() + PI/2
 
 func _physics_process(_delta: float) -> void:
 	if $RayCast2D.is_colliding() and not has_child_reflection:

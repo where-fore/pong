@@ -3,7 +3,7 @@ extends Area2D
 var paddle_speed_factor = 500
 var screen_size = 0 #init at ready
 var paddle_size = 0 #init at ready
-var paddle_disabled_on_collision_for = 0.2
+var paddle_disabled_on_collision_for = 0.5
 var velocity = Vector2.ZERO
 var ball_to_track = null
 var reaction_time_remaining = 0
@@ -43,9 +43,13 @@ func _process(delta: float) -> void:
 #disable paddle for a bit to make sure there's no shennanigans
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Ball"):
-		$CollisionShape2D.disabled = true
-		await get_tree().create_timer(paddle_disabled_on_collision_for).timeout
-		$CollisionShape2D.disabled = false
+		$CollisionShape2D.set_deferred("disabled", true)
+		var timer = $"CollisionShape2D/Disable on Contact Timer"
+		timer.start(paddle_disabled_on_collision_for)
+
+func _on_disable_on_contact_timer_timeout() -> void:
+	$CollisionShape2D.set_deferred("disabled", false)
+
 
 func key_movement():
 	if Input.is_action_pressed("move_up"):
