@@ -74,3 +74,11 @@ func end_pulse():
 	pulse_tween.kill()
 	pulse_tween = null
 	to_pulse.scale = original_scale
+
+
+func _on_start_button_vs_computer_pressed() -> void:
+	pass # Replace with function body.
+
+
+func _on_start_button_vs_local_pressed() -> void:
+	pass # Replace with function body.
