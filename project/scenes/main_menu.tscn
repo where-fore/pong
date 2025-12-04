@@ -42,8 +42,8 @@ collision_layer = 3
 
 [node name="Main Menu Hud" parent="." instance=ExtResource("5_lgwnu")]
 script = ExtResource("6_flqon")
-solo_play_scene = "uid://b821myv7hqira"
-multi_play_scene = null
+solo_play_scene = "uid://dqxuyi8lx6pw4"
+multi_play_scene = "uid://b821myv7hqira"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 360)

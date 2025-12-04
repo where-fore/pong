@@ -8,7 +8,7 @@
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_uo2fv")
 
-[node name="Keys Score Icon" type="TextureRect" parent="."]
+[node name="Left Score Icon" type="TextureRect" parent="."]
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.01
@@ -21,7 +21,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(40, 40)
 texture = ExtResource("6_5pdws")
 
-[node name="Keys Score Label" type="Label" parent="Keys Score Icon"]
+[node name="Left Score Label" type="Label" parent="Left Score Icon"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -37,7 +37,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
-[node name="Cursor Score Icon" type="TextureRect" parent="."]
+[node name="Right Score Icon" type="TextureRect" parent="."]
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.01
@@ -50,7 +50,7 @@ grow_horizontal = 2
 pivot_offset = Vector2(40, 40)
 texture = ExtResource("4_6fi6k")
 
-[node name="Cursor Score Label" type="Label" parent="Cursor Score Icon"]
+[node name="Right Score Label" type="Label" parent="Right Score Icon"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5

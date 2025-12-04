@@ -43,7 +43,7 @@ anchor_bottom = 0.9
 grow_horizontal = 2
 grow_vertical = 2
 text = "Begin
-The Pong"
+Vs Computer"
 horizontal_alignment = 1
 vertical_alignment = 1
 

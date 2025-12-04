@@ -4,7 +4,9 @@ extends CanvasLayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#sometimes it's set to visible in the editor so i can work, this makes sure it doesn't start visible
 	visible = false
+	
 	if main_menu_scene == null:
 		push_error("Exported variable is null")
 	

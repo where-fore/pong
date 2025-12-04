@@ -31,16 +31,16 @@ func _process(_delta: float) -> void:
 
 
 func _on_right_wall_scored() -> void:
-	$"Keys Score Icon/Keys Score Label".show()
-	$"Keys Score Icon/Keys Score Label".text = str(int($"Keys Score Icon/Keys Score Label".text) + 1)
-	bounces_this_set = 0
-	score_should_pulse = false
-	has_played_more_than_one_set = true
+	update_scores($"Left Score Icon/Left Score Label")
 
 
 func _on_left_wall_scored() -> void:
-	$"Cursor Score Icon/Cursor Score Label".show()
-	$"Cursor Score Icon/Cursor Score Label".text = str(int($"Cursor Score Icon/Cursor Score Label".text) + 1)
+	update_scores($"Right Score Icon/Right Score Label")
+
+
+func update_scores(label) -> void:
+	label.show()
+	label.text = str(int(label.text) + 1)
 	bounces_this_set = 0
 	score_should_pulse = false
 	has_played_more_than_one_set = true
