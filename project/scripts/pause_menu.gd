@@ -1,15 +1,18 @@
 extends CanvasLayer
 
+@export_file("*.tscn") var main_menu_scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	visible = false
+	if main_menu_scene == null:
+		push_error("Exported variable is null")
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("main menu") and not get_tree().paused:
+	if Input.is_action_just_pressed("pause menu") and not get_tree().paused:
 		pause()
-	elif Input.is_action_just_pressed("main menu") and get_tree().paused:
+	elif Input.is_action_just_pressed("pause menu") and get_tree().paused:
 		unpause()
 
 func pause():
@@ -39,3 +42,8 @@ func unpause():
 	for ball in ball_array:
 		ball.drop_in()
 	
+
+
+func _on_main_menu_button_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file(main_menu_scene)

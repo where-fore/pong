@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjbn4uxeicuul"]
+[gd_scene load_steps=7 format=3 uid="uid://bjbn4uxeicuul"]
 
 [ext_resource type="Script" uid="uid://ccnlts11yvfjx" path="res://scripts/pause_menu.gd" id="1_myx47"]
 [ext_resource type="Texture2D" uid="uid://cflngofuyyspn" path="res://sprites/menu.png" id="1_n87rw"]
+[ext_resource type="PackedScene" uid="uid://b61yo3li5q05y" path="res://scenes/mainmenu.tscn" id="2_v4r4p"]
 [ext_resource type="Texture2D" uid="uid://diiudllnj1uxn" path="res://sprites/button.png" id="3_7l7mv"]
 [ext_resource type="Texture2D" uid="uid://cfx885gna44a6" path="res://sprites/buttonpressed.png" id="4_v4r4p"]
 [ext_resource type="Texture2D" uid="uid://cafly83pf77ng" path="res://sprites/buttonhovered.png" id="5_1s2dm"]
@@ -9,7 +10,7 @@
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
 script = ExtResource("1_myx47")
-main_menu_scene = "uid://b61yo3li5q05y"
+main_menu_scene = ExtResource("2_v4r4p")
 
 [node name="MenuBody" type="TextureRect" parent="."]
 anchors_preset = -1
