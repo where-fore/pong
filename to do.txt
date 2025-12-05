@@ -30,10 +30,6 @@ currently i like how to beat the ai you have to think ahead, since it primitivel
 make main menu not weird: change the first pan/zoom to a set angle as the game starts; add a texture to the walls so it makes sense when not screen fit; add some sort of transition/fade to the actual game so it's not so abrupt (probably fade asap on button press, and 3s countdown on main scene load)
 
 
-improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
-or just restructure to rigidbody/character controllers
-or elsewise
-(also maybe increase the time-the-paddle-stays-uncollidable, it seems a bit short)
 
 
 new sprites?
@@ -42,6 +38,22 @@ wall -> build corner, build small wall segment that's good to tile. look into 2d
 make little tiled background for outside the arena, thinking little star-like twinkles or something
 	do this with a perlin noise type background
 
+
+
+
+
+
+improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
+or just restructure to rigidbody/character controllers
+or elsewise
+
+raycast: length = velocity.x
+
+ball: on process check if raycast in collider, if so collider=off for 0.2s, rebound
+theoretically if the ball moves velocity, then a raycast of length velocity will always work?
+
+
+raycast psuedo code:
 instead of position += velocity
 var potential_end_point = position + velocity
 var abort = false

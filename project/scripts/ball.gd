@@ -5,6 +5,11 @@ var velocity = Vector2.ZERO #instantiates
 var bounce_count_parent
 var starting_y_scale
 
+#tween instantiations
+var drop_in_tween = null
+var original_scale = null
+var original_velocity = null
+
 #base ball settings
 var ball_speed = 600
 var random_starting_direction_tilt = 0.3 # how far from horizontal to start the ball moving
@@ -47,7 +52,6 @@ func _ready() -> void:
 	velocity = Vector2.LEFT*left_or_right + Vector2.UP*up_or_down*random_tilt
 	velocity *= ball_speed
 	
-	#animate then fire
 	drop_in()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -83,21 +87,56 @@ func _on_timer_timeout() -> void:
 	queue_free()
 
 func drop_in():
-	$Timer.start() #restart collision timer
+	var target = self #can change to "self" to scale colliders too
+	if not original_scale: original_scale = target.scale
+	if not original_velocity: original_velocity = self.velocity
 	
-	var base_scale = $Sprite2D.scale
-	var base_velocity = velocity
-	velocity = Vector2.ZERO
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_EXPO)
-	tween.set_ease(Tween.EASE_IN)
-	tween.tween_property($Sprite2D, "scale", base_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
-	tween.tween_property($Sprite2D, "scale", base_scale, ball_spawn_shoot_delay/2)
-	await tween.finished
-	velocity = base_velocity
+	#if no tween: var first_time = true
+	#handle the create and kill if first_time, if not just redo the growth
 	
-	$Timer.start() #restart collision timer
-
+	if not drop_in_tween:
+		#stop the ball
+		velocity = Vector2.ZERO
+		$Timer.start() #restart collision timer
+		
+		drop_in_tween = create_tween()
+		drop_in_tween.set_trans(Tween.TRANS_EXPO)
+		drop_in_tween.set_ease(Tween.EASE_IN)
+		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
+		drop_in_tween.tween_property(target, "scale", original_scale, ball_spawn_shoot_delay/2)
+		
+		await drop_in_tween.finished
+		finish_drop_in_tween()
+		
+	elif drop_in_tween:
+		$Timer.start() #restart collision timer
+		
+		#cache the current (mid-tween) scale, so the ball grows super big
+		original_scale = target.scale
+		drop_in_tween.stop()
+		
+		drop_in_tween = create_tween()
+		drop_in_tween.set_trans(Tween.TRANS_EXPO)
+		drop_in_tween.set_ease(Tween.EASE_IN)
+		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
+		drop_in_tween.tween_property(target, "scale", original_scale, ball_spawn_shoot_delay/2)
+		
+		await drop_in_tween.finished
+		finish_drop_in_tween()
+		
+func finish_drop_in_tween():
+		#clean up the tween and reset
+		drop_in_tween.kill()
+		drop_in_tween = null
+		
+		#return the ball to its original speed
+		velocity = original_velocity
+		$Timer.start() #restart collision timer
+		
+		#clear saved data
+		original_scale = null
+		original_velocity = null
+	
 
 func stretch_ball():
 	#stretch y in relation to velocity

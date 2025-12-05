@@ -38,16 +38,17 @@ theme_override_constants/shadow_outline_size = 8
 theme_override_font_sizes/font_size = 64
 text = "PAUSED"
 
-[node name="Main Menu Button" type="TextureButton" parent="."]
+[node name="Main Menu Button" type="TextureButton" parent="MenuBody"]
+layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.6
 anchor_right = 0.5
 anchor_bottom = 0.6
 offset_left = -90.0
-offset_top = -90.0
+offset_top = -75.599976
 offset_right = 90.0
-offset_bottom = 90.0
+offset_bottom = 104.400024
 grow_horizontal = 2
 grow_vertical = 2
 texture_normal = ExtResource("3_7l7mv")
@@ -55,7 +56,7 @@ texture_pressed = ExtResource("4_v4r4p")
 texture_hover = ExtResource("5_1s2dm")
 stretch_mode = 0
 
-[node name="Main Menu Button Label" type="Label" parent="Main Menu Button"]
+[node name="Main Menu Button Label" type="Label" parent="MenuBody/Main Menu Button"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -70,4 +71,4 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "MAIN MENU"
 
-[connection signal="pressed" from="Main Menu Button" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="MenuBody/Main Menu Button" to="." method="_on_main_menu_button_pressed"]
