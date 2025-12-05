@@ -37,3 +37,19 @@ or elsewise
 
 
 new sprites?
+
+wall -> build corner, build small wall segment that's good to tile. look into 2d z-fighting so i know if the ball will show over the wall
+make little tiled background for outside the arena, thinking little star-like twinkles or something
+	do this with a perlin noise type background
+
+instead of position += velocity
+var potential_end_point = position + velocity
+var abort = false
+while position != potential_end_point && not abort:
+	position += velocity.direction
+	if check_collisions():
+		abort = true
+
+set_velocity(new_velocity):
+	velocity = new_velocity
+	abort = false

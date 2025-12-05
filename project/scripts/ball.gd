@@ -3,6 +3,7 @@ extends Area2D
 signal destroyed
 var velocity = Vector2.ZERO #instantiates
 var bounce_count_parent
+var starting_y_scale
 
 #base ball settings
 var ball_speed = 600
@@ -31,6 +32,10 @@ var has_child_reflection = false
 func _ready() -> void:
 	add_to_group("Ball")
 	
+	#save this cause i'll use it later
+	starting_y_scale = scale.y
+	
+	
 	#set up a random direction and angle
 	var up_or_down = randi_range(0,1)
 	if up_or_down == 0: up_or_down = -1
@@ -50,55 +55,22 @@ func _process(delta: float) -> void:
 	#move the ball
 	position += velocity * delta
 	
-	#spin the ball's sprite for fun
-	$Sprite2D.rotation_degrees += rotational_speed_factor*velocity.x
-	
 	#match the raycast to the direction of travel
 	$RayCast2D.rotation = velocity.angle() - PI/2
-	
-	#match the capsule path to the velocity
-	var trail = $"Capsule Trail Pivot/Capsule Trail"
-	var working_velocity = velocity.length()*delta + trail.shape.radius*2
-	trail.shape.set_height(working_velocity)
-	trail.position.y = trail.shape.height/2 - trail.shape.radius/2
-	$"Capsule Trail Pivot".rotation = velocity.angle() + PI/2
-
-func _physics_process(_delta: float) -> void:
-	if $RayCast2D.is_colliding() and not has_child_reflection:
-		pass
-
-
-func createNewRay():
-	has_child_reflection = true
-	
-	
 
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Paddle"):
-		# known issue: this math isn't perfectly accurate since i'm not measuring where the ball impacted the paddle
-		var ball_pos = position.y #this is the center of the ball, not the position of the collision
-		var paddle_pos = area.position.y
-		var distance_to_paddle_center = abs(ball_pos - paddle_pos)
-		var paddle_length_to_center = area.get_node("CollisionShape2D").shape.height/2
-		var percent_of_paddle_from_center = distance_to_paddle_center / paddle_length_to_center
-		
-		if clamp_rebound_edges: 
-			percent_of_paddle_from_center = min(percent_of_paddle_from_center, clamp_rebound_edge_max)
-
-		if use_angle_rebound:
-			velocity *= (Vector2(1, 1+(percent_of_paddle_from_center*rebound_angle_factor)))
-		if accelerate_x:
-			velocity.x *= acceleration_factor
-		if accelerate_y:
-			velocity.y *= acceleration_factor
-
+		rebound_ball(area)
+		stretch_ball()
 		velocity *= Vector2(-1,1) #basic reverse direction
+		rotate_ball()
 		
 		HudEvents.ball_bounced.emit()
 		
 	elif area.is_in_group("Bounce Wall"):
 		velocity *= Vector2(1,-1)
+		rotate_ball()
 	
 	#failsafe: checks if it has collided with something recently
 	#restarts timer when colliding with anything
@@ -125,3 +97,35 @@ func drop_in():
 	velocity = base_velocity
 	
 	$Timer.start() #restart collision timer
+
+
+func stretch_ball():
+	#stretch y in relation to velocity
+	#with a feelscrafted magic number
+	var stretch_factor = (acceleration_factor-1)/2
+	scale.y *= 1 + stretch_factor
+
+func rotate_ball():
+	#rotate to face direction of travel
+	rotation = velocity.angle() + PI/2
+
+
+func rebound_ball(paddle_area):
+	# rebound ball, with angle based on what part of the paddle it hit
+	
+	# known issue: this math isn't perfectly accurate since i'm not measuring where the ball impacted the paddle, i'm measuring the ball's center
+	var ball_pos = position.y #this is the center of the ball, not the position of the collision
+	var paddle_pos = paddle_area.position.y #this is the center of the paddle
+	var distance_to_paddle_center = abs(ball_pos - paddle_pos)
+	var paddle_length_to_center = paddle_area.get_node("CollisionShape2D").shape.height/2
+	var percent_of_paddle_from_center = distance_to_paddle_center / paddle_length_to_center
+	
+	if clamp_rebound_edges: 
+		percent_of_paddle_from_center = min(percent_of_paddle_from_center, clamp_rebound_edge_max)
+
+	if use_angle_rebound:
+		velocity *= (Vector2(1, 1+(percent_of_paddle_from_center*rebound_angle_factor)))
+	if accelerate_x:
+		velocity.x *= acceleration_factor
+	if accelerate_y:
+			velocity.y *= acceleration_factor
