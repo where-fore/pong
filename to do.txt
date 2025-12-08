@@ -1,36 +1,27 @@
 pong to do
 
-decide on scope creep: add my own juice, sprites (background+better current ones), look at other pongs/block breakers for inspiration, some unique flavour like fireball wizards or lightning bolt mirrors or something else reflected/shot, others
-
-taylor feedback:
-after lots of play they started to really enjoy seeing how high they could go in bounces, so a high score counter would be awesome. show current bounces, max high score, maybe current speed or time too
-was interested in a bit more variability to the bounce, since it's currently completely static. maybe add more pitch based on how far from center the ball was hit
-	- can then add some power-ups or other enviornmental interactions
-		- power-ups like larger paddle, multi-ball where only one ball is real, and more examples from brick breakers
-when asked about aesthetics, wizards+fireball/lightning, and cats+yarn ball were both well received
-wanted a pause menu, of course
-
-to do:
-solo mode: 45 degrees bounces, ui tracks highest bounce record. either mouse or keyboard controls
-competitive mode: non-45 bounces, ui tracks score and highest bounce record
-	-competitive, choose ai or local multiplayer
-
--other jazz:
-	-settings menu -> maybe have presets? "basic 45", "basic angled rebound"
-	-new sprites
-
+definitely do
+-----------------------
 
 the bounce count font looks a little ass - not sure why.. scale? just is bad at high size? seems blurry around the edges
-
-
-ai: try to get some sort of variation so the main menu looks for dynamic, some sort of reaction speed based movement - or maybe some +- error in its angle calculations? maybe do some smarter raycast stuff https://www.youtube.com/watch?v=tjSuQzbarAQ?
-currently i like how to beat the ai you have to think ahead, since it primitively sees where the ball will be. i do like the idea of different ai patterns/styles/presets that have their own flair. maybe 3 with scaling levels of difficulty?
-
+	probably scale, look into changing font size tween for real this time - font overrides, theme overrides, themeoverride.fontsize
 
 make main menu not weird: change the first pan/zoom to a set angle as the game starts; add a texture to the walls so it makes sense when not screen fit; add some sort of transition/fade to the actual game so it's not so abrupt (probably fade asap on button press, and 3s countdown on main scene load)
 
+make the vs computer input style be changeable
+	click on keyboard icon to make it a cursor, and vice versa. popup on load in? if moved cursor a lot recently, pop up again? want to make sure you can see it again if you miss the popup - probably solved by watching playtesters that aren't prompted
+
+-----------------------
 
 
+
+would be nice
+-----------------------
+ai: try to get some sort of variation so the main menu looks for dynamic, some sort of reaction speed based movement - or maybe some +- error in its angle calculations? maybe do some smarter raycast stuff https://www.youtube.com/watch?v=tjSuQzbarAQ?
+currently i like how to beat the ai you have to think ahead, since it primitively sees where the ball will be. i do like the idea of different ai patterns/styles/presets that have their own flair. maybe 3 with scaling levels of difficulty?
+	maybe one perfect (for solo bounce count high scores), one accessible (like it is now) for reasonable competitive challenge, and one human-like with a name? try to beat all the characters
+	to make the ai feel reactive, have it explicitly react. call the movement changes on ball bounce? or at least on paddle bounce
+	currently i'm trying to get the ball to exactly the top/bottom 75/25% of the paddle - randomize this so it's less robotic
 
 new sprites?
 
@@ -38,10 +29,8 @@ wall -> build corner, build small wall segment that's good to tile. look into 2d
 make little tiled background for outside the arena, thinking little star-like twinkles or something
 	do this with a perlin noise type background
 
-
-
-
-
+some extra polish/juice all around, sound effects? tiny bit of camera shake? tiny bit of paddle movement on hit?
+	instead of ball acceleration, whole game acceleration? paddles move faster, animate faster?
 
 improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
 or just restructure to rigidbody/character controllers
@@ -65,3 +54,5 @@ while position != potential_end_point && not abort:
 set_velocity(new_velocity):
 	velocity = new_velocity
 	abort = false
+	
+-----------------------

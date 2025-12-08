@@ -84,10 +84,14 @@ func _on_area_entered(area: Area2D) -> void:
 #if it hasn't collided in a while, yeet
 func _on_timer_timeout() -> void:
 	emit_signal("destroyed")
-	queue_free()
+	for ball in get_tree().get_nodes_in_group("Ball"):
+		queue_free()
 
 func drop_in():
-	var target = self #can change to "self" to scale colliders too
+	#"self" to scale the parent: the sprite and all colliders
+	#"$Sprite2D" to scale the sprite only: doesn't mess with colliders
+	var target = self
+	
 	if not original_scale: original_scale = target.scale
 	if not original_velocity: original_velocity = self.velocity
 	

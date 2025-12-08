@@ -11,23 +11,59 @@ process_mode = 3
 script = ExtResource("1_myx47")
 main_menu_scene = "uid://b61yo3li5q05y"
 
-[node name="MenuBody" type="TextureRect" parent="."]
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
+[node name="Container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Non Menu Fade Layer" type="ColorRect" parent="Container"]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="MenuBody" type="TextureRect" parent="Container"]
+custom_minimum_size = Vector2(1100, 680)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -18.0
+offset_right = 32.0
+offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_n87rw")
 
-[node name="MenuTitle" type="Label" parent="MenuBody"]
+[node name="MenuTitle" type="Label" parent="Container/MenuBody"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -160.0
-offset_top = 180.0
+offset_top = 240.0
 offset_right = 160.0
 offset_bottom = 240.0
 grow_horizontal = 2
@@ -38,25 +74,35 @@ theme_override_constants/shadow_outline_size = 8
 theme_override_font_sizes/font_size = 64
 text = "PAUSED"
 
-[node name="Main Menu Button" type="TextureButton" parent="MenuBody"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Container/MenuBody"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.6
-anchor_right = 0.5
-anchor_bottom = 0.6
-offset_left = -90.0
-offset_top = -75.599976
-offset_right = 90.0
-offset_bottom = 104.400024
+anchor_left = 0.4
+anchor_top = 0.55
+anchor_right = 0.6
+anchor_bottom = 0.8
+offset_left = -20.0
+offset_top = -34.0
+offset_right = 20.0
+offset_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Container/MenuBody/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Main Menu Button" type="TextureButton" parent="Container/MenuBody/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 texture_normal = ExtResource("3_7l7mv")
 texture_pressed = ExtResource("4_v4r4p")
 texture_hover = ExtResource("5_1s2dm")
-stretch_mode = 0
+stretch_mode = 6
 
-[node name="Main Menu Button Label" type="Label" parent="MenuBody/Main Menu Button"]
+[node name="Main Menu Button Label" type="Label" parent="Container/MenuBody/VBoxContainer/MarginContainer/Main Menu Button"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -69,6 +115,38 @@ offset_right = 20.0
 offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 20
 text = "MAIN MENU"
 
-[connection signal="pressed" from="MenuBody/Main Menu Button" to="." method="_on_main_menu_button_pressed"]
+[node name="MarginContainer2" type="MarginContainer" parent="Container/MenuBody/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Close Button" type="TextureButton" parent="Container/MenuBody/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+texture_normal = ExtResource("3_7l7mv")
+texture_pressed = ExtResource("4_v4r4p")
+texture_hover = ExtResource("5_1s2dm")
+stretch_mode = 6
+
+[node name="Close Button Label" type="Label" parent="Container/MenuBody/VBoxContainer/MarginContainer2/Close Button"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 20
+text = "CLOSE"
+
+[connection signal="pressed" from="Container/MenuBody/VBoxContainer/MarginContainer/Main Menu Button" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="Container/MenuBody/VBoxContainer/MarginContainer2/Close Button" to="." method="_on_close_button_pressed"]
