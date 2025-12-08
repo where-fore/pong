@@ -24,9 +24,13 @@ func _process(_delta: float) -> void:
 
 
 func open_menu():
+	#immediately pause
 	pause()
-	pulse_menu()
 	
+	#begin some animations
+	pulse_fade_around_menu()
+	
+	#fade in
 	visible = true
 	fade_menu(Color(1,1,1,1), 0.2)
 
@@ -35,13 +39,14 @@ func close_menu():
 	var fade_time = 0.3
 	
 	#stop the pulsing non-menu fade
-	pulse_menu(false, fade_time)
+	pulse_fade_around_menu(false, fade_time)
 	
 	#fade out whole menu
 	await fade_menu(Color(1,1,1,0), fade_time)
 	
-	unpause()
+	#finish
 	visible = false
+	unpause()
 
 
 func pause():
@@ -56,9 +61,9 @@ func unpause():
 		ball.drop_in()
 
 
-func pulse_menu(start = true, time_to_kill = 0):
-	#currently this just infinitely pulses it, even though the menu never closes, it just hides
-	#this is probably fine cause it costs nothing and looks unnoticeable
+func pulse_fade_around_menu(start = true, time_to_kill = 0):
+	#assumes an instantied var pulse_tween = null
+	
 	var target = $Container/"Non Menu Fade Layer"
 	var min_alpha = 0.5
 	var max_alpha = 0.7
@@ -99,6 +104,7 @@ func fade_menu(target_color:Color, fade_time:float) -> bool:
 	fade_in_out_tween.set_trans(Tween.TRANS_CUBIC)
 	fade_in_out_tween.set_ease(Tween.EASE_IN)
 	fade_in_out_tween.tween_property(menu_body, "modulate", target_color, fade_time)
+	
 	#if you want to wait for the fade to be finished, await fade_menu()
 	await fade_in_out_tween.finished
 	fade_in_out_tween.kill()
