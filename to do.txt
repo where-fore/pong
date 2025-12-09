@@ -3,15 +3,70 @@ pong to do
 definitely do
 -----------------------
 
-the bounce count font looks a little ass - not sure why.. scale? just is bad at high size? seems blurry around the edges
+the bounce count font looks a little ass, seems blurry around the edges
 	probably scale, look into changing font size tween for real this time - font overrides, theme overrides, themeoverride.fontsize
-
-make main menu not weird: change the first pan/zoom to a set angle as the game starts; add a texture to the walls so it makes sense when not screen fit; add some sort of transition/fade to the actual game so it's not so abrupt (probably fade asap on button press, and 3s countdown on main scene load)
 
 make the vs computer input style be changeable
 	click on keyboard icon to make it a cursor, and vice versa. popup on load in? if moved cursor a lot recently, pop up again? want to make sure you can see it again if you miss the popup - probably solved by watching playtesters that aren't prompted
 
 -----------------------
+
+
+have the very first ball drop in main take longer (to let player mess with controls)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

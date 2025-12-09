@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b821myv7hqira"]
+[gd_scene load_steps=8 format=3 uid="uid://b821myv7hqira"]
 
 [ext_resource type="Script" uid="uid://bhhcr0tk2y0iq" path="res://scripts/main.gd" id="1_nprsp"]
 [ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://scenes/ball.tscn" id="2_8v6u6"]
 [ext_resource type="PackedScene" uid="uid://bx8j7svrtatrd" path="res://scenes/paddle.tscn" id="3_7qycn"]
+[ext_resource type="PackedScene" uid="uid://dladtlk8i4cxd" path="res://scenes/scene_fade.tscn" id="3_8v6u6"]
 [ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="4_ys725"]
 [ext_resource type="PackedScene" uid="uid://bmed41fkbopnt" path="res://scenes/hud.tscn" id="5_saspj"]
 [ext_resource type="PackedScene" uid="uid://bjbn4uxeicuul" path="res://scenes/pause_menu.tscn" id="6_82vou"]
@@ -10,6 +11,8 @@
 [node name="Main" type="Node" groups=["Bounce Wall", "Paddle"]]
 script = ExtResource("1_nprsp")
 ball_scene = ExtResource("2_8v6u6")
+
+[node name="Scene Fade" parent="." instance=ExtResource("3_8v6u6")]
 
 [node name="Left Paddle" parent="." groups=["Keys Paddle", "Paddle"] instance=ExtResource("3_7qycn")]
 position = Vector2(100, 360)
@@ -48,3 +51,4 @@ position = Vector2(640, 360)
 [connection signal="scored" from="Right Wall" to="HUD" method="_on_right_wall_scored"]
 [connection signal="scored" from="Left Wall" to="." method="_on_left_wall_scored"]
 [connection signal="scored" from="Left Wall" to="HUD" method="_on_left_wall_scored"]
+[connection signal="back_to_main_menu" from="PauseMenu" to="." method="_on_pause_menu_back_to_main_menu"]

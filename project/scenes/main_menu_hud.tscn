@@ -111,6 +111,7 @@ script = ExtResource("6_8tnh8")
 one_shot = true
 
 [connection signal="intro_finished" from="." to="CanvasModulate/Start Button Vs Computer" method="_on_main_menu_hud_intro_finished"]
+[connection signal="intro_finished" from="." to="CanvasModulate/Start Button Vs Local" method="_on_main_menu_hud_intro_finished"]
 [connection signal="pressed" from="CanvasModulate/Start Button Vs Computer" to="." method="_on_start_button_vs_computer_pressed"]
 [connection signal="pressed" from="CanvasModulate/Start Button Vs Local" to="." method="_on_start_button_vs_local_pressed"]
 [connection signal="timeout" from="CanvasModulate/Start Countdown/Start Countdown Timer" to="." method="_on_start_countdown_timer_timeout"]
