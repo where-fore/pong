@@ -25,6 +25,7 @@ anchors_preset = -1
 anchor_left = 0.3
 anchor_right = 0.3
 offset_left = 256.0
+offset_top = 156.0
 offset_right = 512.0
 offset_bottom = 256.0
 grow_horizontal = 2
@@ -34,7 +35,7 @@ shortcut_in_tooltip = false
 texture_normal = ExtResource("2_558sp")
 texture_pressed = ExtResource("3_0m2xx")
 texture_hover = ExtResource("4_6lya0")
-stretch_mode = 0
+stretch_mode = 6
 script = ExtResource("5_twu8j")
 
 [node name="Start Button Vs Computer Label" type="Label" parent="CanvasModulate/Start Button Vs Computer"]
@@ -56,6 +57,7 @@ anchors_preset = -1
 anchor_left = 0.7
 anchor_right = 0.7
 offset_left = 768.0
+offset_top = 156.0
 offset_right = 1024.0
 offset_bottom = 256.0
 grow_horizontal = 2
@@ -65,7 +67,7 @@ shortcut_in_tooltip = false
 texture_normal = ExtResource("2_558sp")
 texture_pressed = ExtResource("3_0m2xx")
 texture_hover = ExtResource("4_6lya0")
-stretch_mode = 0
+stretch_mode = 6
 script = ExtResource("5_twu8j")
 
 [node name="Start Button Vs Local Label" type="Label" parent="CanvasModulate/Start Button Vs Local"]

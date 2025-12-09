@@ -1,9 +1,7 @@
 extends Area2D
 
 signal destroyed
-var velocity = Vector2.ZERO #instantiates
-var bounce_count_parent
-var starting_y_scale
+var velocity = Vector2.ZERO
 
 #tween instantiations
 var drop_in_tween = null
@@ -12,15 +10,16 @@ var original_velocity = null
 
 #base ball settings
 var ball_speed = 600
-var random_starting_direction_tilt = 0.3 # how far from horizontal to start the ball moving
-var rotational_speed_factor = 0.008
+var random_starting_tilt = 0.3
+var minimum_tilt = 0.1
+#var rotational_speed_factor = 0.008 #old
 var ball_spawn_shoot_delay = 2.2
 var ball_pulse_growth_factor = 2
 
 #acceleration on paddle bounce
 var acceleration_factor = 1.08 #to give the game a ramping time limit
 var accelerate_x = true
-var accelerate_y = false
+var accelerate_y = false #the paddle rebound angles do this part
 
 #rebound at non-45 on paddle bounce: as a factor of distance to center of paddle on collision
 var use_angle_rebound = true
@@ -29,30 +28,21 @@ var rebound_angle_factor = 0.5
 var clamp_rebound_edges = true
 var clamp_rebound_edge_max = 0.85 
 
-#raycast
-var has_child_reflection = false
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("Ball")
 	
-	#save this cause i'll use it later
-	starting_y_scale = scale.y
-	
-	
 	#set up a random direction and angle
 	var up_or_down = randi_range(0,1)
 	if up_or_down == 0: up_or_down = -1
-	var random_tilt = randf_range(0.1, 0.1+random_starting_direction_tilt)
+	var random_tilt = randf_range(minimum_tilt, minimum_tilt+random_starting_tilt)
 	
 	var left_or_right = randi_range(0,1)
 	if left_or_right == 0: left_or_right = -1
 	
 	velocity = Vector2.LEFT*left_or_right + Vector2.UP*up_or_down*random_tilt
 	velocity *= ball_speed
-	
-	drop_in()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -60,7 +50,9 @@ func _process(delta: float) -> void:
 	position += velocity * delta
 	
 	#match the raycast to the direction of travel
-	$RayCast2D.rotation = velocity.angle() - PI/2
+	#if i had one
+	#$RayCast2D.rotation = velocity.angle() - PI/2
+	#maybe good for cheater mode, or a powerup
 
 
 func _on_area_entered(area: Area2D) -> void:
@@ -87,7 +79,7 @@ func _on_timer_timeout() -> void:
 	for ball in get_tree().get_nodes_in_group("Ball"):
 		queue_free()
 
-func drop_in():
+func drop_in(wait_time:float = 0, animation_length:float = ball_spawn_shoot_delay):
 	#so the ball doesn't score or something if it grows near an edge
 	#$CollisionShape2D.disabled = true
 	#actually multiball has no downsides for now
@@ -98,20 +90,21 @@ func drop_in():
 	
 	if not original_scale: original_scale = target.scale
 	if not original_velocity: original_velocity = self.velocity
+	velocity = Vector2.ZERO
+	
+	if wait_time > 0: await get_tree().create_timer(wait_time).timeout
 	
 	#if no tween: var first_time = true
 	#handle the create and kill if first_time, if not just redo the growth
 	
 	if not drop_in_tween:
-		#stop the ball
-		velocity = Vector2.ZERO
 		$Timer.start() #restart collision timer
 		
 		drop_in_tween = create_tween()
 		drop_in_tween.set_trans(Tween.TRANS_EXPO)
 		drop_in_tween.set_ease(Tween.EASE_IN)
-		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
-		drop_in_tween.tween_property(target, "scale", original_scale, ball_spawn_shoot_delay/2)
+		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, animation_length/2)
+		drop_in_tween.tween_property(target, "scale", original_scale, animation_length/2)
 		
 		await drop_in_tween.finished
 		finish_drop_in_tween()
@@ -126,8 +119,8 @@ func drop_in():
 		drop_in_tween = create_tween()
 		drop_in_tween.set_trans(Tween.TRANS_EXPO)
 		drop_in_tween.set_ease(Tween.EASE_IN)
-		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, ball_spawn_shoot_delay/2)
-		drop_in_tween.tween_property(target, "scale", original_scale, ball_spawn_shoot_delay/2)
+		drop_in_tween.tween_property(target, "scale", original_scale*ball_pulse_growth_factor, animation_length/2)
+		drop_in_tween.tween_property(target, "scale", original_scale, animation_length/2)
 		
 		await drop_in_tween.finished
 		finish_drop_in_tween()
@@ -153,6 +146,7 @@ func finish_drop_in_tween():
 func stretch_ball():
 	#stretch y in relation to velocity
 	#with a feelscrafted magic number
+	#would be nice if it was a factor of its vector.length
 	var stretch_factor = (acceleration_factor-1)/2
 	scale.y *= 1 + stretch_factor
 
@@ -179,4 +173,4 @@ func rebound_ball(paddle_area):
 	if accelerate_x:
 		velocity.x *= acceleration_factor
 	if accelerate_y:
-			velocity.y *= acceleration_factor
+		velocity.y *= acceleration_factor

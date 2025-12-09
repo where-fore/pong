@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bmed41fkbopnt" path="res://scenes/hud.tscn" id="5_saspj"]
 [ext_resource type="PackedScene" uid="uid://bjbn4uxeicuul" path="res://scenes/pause_menu.tscn" id="6_82vou"]
 
-[node name="Main" type="Node" groups=["Bounce Wall", "Paddle"]]
+[node name="Main" type="Node"]
 script = ExtResource("1_nprsp")
 ball_scene = ExtResource("2_8v6u6")
 

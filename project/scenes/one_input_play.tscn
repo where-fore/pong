@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bjbn4uxeicuul" path="res://scenes/pause_menu.tscn" id="6_8ff3m"]
 [ext_resource type="Texture2D" uid="uid://cwj1n8p75ajuq" path="res://sprites/robot.png" id="6_teyol"]
 
-[node name="Main" type="Node" groups=["Bounce Wall", "Paddle"]]
+[node name="Main" type="Node"]
 script = ExtResource("1_muj5o")
 ball_scene = ExtResource("2_teyol")
 
