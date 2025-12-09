@@ -5,6 +5,8 @@ extends CanvasLayer
 var pulse_tween = null
 var fade_in_out_tween = null
 
+signal back_to_main_menu(scene)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#sometimes it's set to visible in the editor so i can work, this makes sure it doesn't start visible
@@ -32,7 +34,7 @@ func open_menu():
 	
 	#fade in
 	visible = true
-	fade_menu(Color(1,1,1,1), 0.2)
+	fade_menu(Color(1,1,1,1), 0.2, menu_body, "modulate")
 
 
 func close_menu():
@@ -42,7 +44,7 @@ func close_menu():
 	pulse_fade_around_menu(false, fade_time)
 	
 	#fade out whole menu
-	await fade_menu(Color(1,1,1,0), fade_time)
+	await fade_menu(Color(1,1,1,0), fade_time, menu_body, "modulate")
 	
 	#finish
 	visible = false
@@ -53,7 +55,10 @@ func pause():
 	get_tree().paused = true
 
 
-func unpause():	
+func unpause():
+	#this unpauses the game, then does a little animation with the ball
+	#this means you can move your paddle while the ball is frozen animating
+	#this is an exploit that i think is fine, i think it's clear if you're exploiting so it's all good
 	get_tree().paused = false
 	
 	var ball_array = get_tree().get_nodes_in_group("Ball")
@@ -94,7 +99,8 @@ func pulse_fade_around_menu(start = true, time_to_kill = 0):
 		kill_tween.tween_property(target, "color", Color(0,0,0,0), time_to_kill)
 
 
-func fade_menu(target_color:Color, fade_time:float) -> bool:
+func fade_menu(target_color:Color, fade_time:float, target:Variant, target_property:String) -> bool:
+	#assumes "var fade_in_out_tween = null" was instantiated
 	#clean up old
 	if fade_in_out_tween:
 		fade_in_out_tween.kill()
@@ -103,7 +109,7 @@ func fade_menu(target_color:Color, fade_time:float) -> bool:
 	fade_in_out_tween = create_tween()
 	fade_in_out_tween.set_trans(Tween.TRANS_CUBIC)
 	fade_in_out_tween.set_ease(Tween.EASE_IN)
-	fade_in_out_tween.tween_property(menu_body, "modulate", target_color, fade_time)
+	fade_in_out_tween.tween_property(target, target_property, target_color, fade_time)
 	
 	#if you want to wait for the fade to be finished, await fade_menu()
 	await fade_in_out_tween.finished
@@ -114,7 +120,7 @@ func fade_menu(target_color:Color, fade_time:float) -> bool:
 
 func _on_main_menu_button_pressed() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file(main_menu_scene)
+	emit_signal("back_to_main_menu", main_menu_scene)
 
 
 func _on_close_button_pressed() -> void:

@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=4 uid="uid://c5qhc6tnlqnrk"]
+
+[ext_resource type="Texture2D" uid="uid://btgmoce86yxd8" path="res://sprites/corner.png" id="1_vuj5t"]
+[ext_resource type="Texture2D" uid="uid://b4wtqpa3woqyr" path="res://sprites/horizontal wall.png" id="2_0mg6g"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5dd4i"]
+resource_name = "Corner"
+texture = ExtResource("1_vuj5t")
+texture_region_size = Vector2i(32, 32)
+0:0/next_alternative_id = 4
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_h = true
+0:0/1/flip_v = true
+0:0/2 = 2
+0:0/2/flip_v = true
+0:0/3 = 3
+0:0/3/flip_h = true
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lgwnu"]
+resource_name = "Straight"
+texture = ExtResource("2_0mg6g")
+texture_region_size = Vector2i(32, 32)
+0:0/next_alternative_id = 4
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_v = true
+0:0/2 = 2
+0:0/2/transpose = true
+0:0/3 = 3
+0:0/3/flip_h = true
+0:0/3/transpose = true
+
+[sub_resource type="TileSet" id="TileSet_flqon"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_5dd4i")
+sources/1 = SubResource("TileSetAtlasSource_lgwnu")
+
+[node name="Border Wall" type="CanvasLayer"]
+layer = 2
+follow_viewport_enabled = true
+
+[node name="Left Black Space" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = -1.0
+anchor_top = -1.0
+anchor_bottom = 2.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Right Black Space" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = -1.0
+anchor_right = 2.0
+anchor_bottom = 2.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Top Black Space" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = -1.0
+anchor_top = -1.0
+anchor_right = 2.0
+grow_horizontal = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Bottom Black Space" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = -1.0
+anchor_top = 1.0
+anchor_right = 2.0
+anchor_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Wall Tilemap Layer" type="TileMapLayer" parent="."]
+z_index = 1
+position = Vector2(0, -8)
+tile_map_data = PackedByteArray("AAAAABYAAAAAAAAAAAAnAAAAAAAAAAAAAQAnABYAAAAAAAAAAwAAAAAAAAAAAAAAAgABABYAAQAAAAAAAAACABYAAQAAAAAAAAADABYAAQAAAAAAAAAEABYAAQAAAAAAAAAFABYAAQAAAAAAAAAGABYAAQAAAAAAAAAHABYAAQAAAAAAAAAIABYAAQAAAAAAAAAJABYAAQAAAAAAAAAKABYAAQAAAAAAAAALABYAAQAAAAAAAAAMABYAAQAAAAAAAAANABYAAQAAAAAAAAAOABYAAQAAAAAAAAAPABYAAQAAAAAAAAAQABYAAQAAAAAAAAARABYAAQAAAAAAAAASABYAAQAAAAAAAAATABYAAQAAAAAAAAAUABYAAQAAAAAAAAAVABYAAQAAAAAAAAAWABYAAQAAAAAAAAAXABYAAQAAAAAAAAAYABYAAQAAAAAAAAAZABYAAQAAAAAAAAAaABYAAQAAAAAAAAAbABYAAQAAAAAAAAAcABYAAQAAAAAAAAAdABYAAQAAAAAAAAAeABYAAQAAAAAAAAAfABYAAQAAAAAAAAAgABYAAQAAAAAAAAAhABYAAQAAAAAAAAAiABYAAQAAAAAAAAAjABYAAQAAAAAAAAAkABYAAQAAAAAAAAAlABYAAQAAAAAAAAAmABYAAQAAAAAAAAABAAAAAQAAAAAAAQACAAAAAQAAAAAAAQADAAAAAQAAAAAAAQAEAAAAAQAAAAAAAQAFAAAAAQAAAAAAAQAGAAAAAQAAAAAAAQAHAAAAAQAAAAAAAQAIAAAAAQAAAAAAAQAJAAAAAQAAAAAAAQAKAAAAAQAAAAAAAQALAAAAAQAAAAAAAQAMAAAAAQAAAAAAAQANAAAAAQAAAAAAAQAOAAAAAQAAAAAAAQAPAAAAAQAAAAAAAQAQAAAAAQAAAAAAAQARAAAAAQAAAAAAAQASAAAAAQAAAAAAAQATAAAAAQAAAAAAAQAUAAAAAQAAAAAAAQAVAAAAAQAAAAAAAQAWAAAAAQAAAAAAAQAXAAAAAQAAAAAAAQAYAAAAAQAAAAAAAQAZAAAAAQAAAAAAAQAaAAAAAQAAAAAAAQAbAAAAAQAAAAAAAQAcAAAAAQAAAAAAAQAdAAAAAQAAAAAAAQAeAAAAAQAAAAAAAQAfAAAAAQAAAAAAAQAgAAAAAQAAAAAAAQAhAAAAAQAAAAAAAQAiAAAAAQAAAAAAAQAjAAAAAQAAAAAAAQAkAAAAAQAAAAAAAQAlAAAAAQAAAAAAAQAmAAAAAQAAAAAAAQAAABUAAQAAAAAAAwAAABQAAQAAAAAAAwAAABMAAQAAAAAAAwAAABIAAQAAAAAAAwAAABEAAQAAAAAAAwAAABAAAQAAAAAAAwAAAA8AAQAAAAAAAwAAAA4AAQAAAAAAAwAAAA0AAQAAAAAAAwAAAAwAAQAAAAAAAwAAAAsAAQAAAAAAAwAAAAoAAQAAAAAAAwAAAAkAAQAAAAAAAwAAAAgAAQAAAAAAAwAAAAcAAQAAAAAAAwAAAAYAAQAAAAAAAwAAAAUAAQAAAAAAAwAAAAQAAQAAAAAAAwAAAAMAAQAAAAAAAwAAAAIAAQAAAAAAAwAAAAEAAQAAAAAAAwAnABUAAQAAAAAAAgAnABQAAQAAAAAAAgAnABMAAQAAAAAAAgAnABIAAQAAAAAAAgAnABEAAQAAAAAAAgAnABAAAQAAAAAAAgAnAA8AAQAAAAAAAgAnAA4AAQAAAAAAAgAnAA0AAQAAAAAAAgAnAAwAAQAAAAAAAgAnAAsAAQAAAAAAAgAnAAoAAQAAAAAAAgAnAAkAAQAAAAAAAgAnAAgAAQAAAAAAAgAnAAcAAQAAAAAAAgAnAAYAAQAAAAAAAgAnAAUAAQAAAAAAAgAnAAQAAQAAAAAAAgAnAAMAAQAAAAAAAgAnAAIAAQAAAAAAAgAnAAEAAQAAAAAAAgA=")
+tile_set = SubResource("TileSet_flqon")

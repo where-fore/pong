@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://csfk1wffs0lw3"]
+[gd_scene load_steps=9 format=3 uid="uid://csfk1wffs0lw3"]
 
 [ext_resource type="Script" uid="uid://nndwlut1ldef" path="res://scripts/main_menu_hud.gd" id="1_fc4h7"]
 [ext_resource type="Texture2D" uid="uid://diiudllnj1uxn" path="res://sprites/button.png" id="2_558sp"]
 [ext_resource type="Texture2D" uid="uid://cfx885gna44a6" path="res://sprites/buttonpressed.png" id="3_0m2xx"]
 [ext_resource type="Texture2D" uid="uid://cafly83pf77ng" path="res://sprites/buttonhovered.png" id="4_6lya0"]
+[ext_resource type="Script" uid="uid://bc3i8uiofplry" path="res://scripts/start_button.gd" id="5_twu8j"]
 [ext_resource type="Script" uid="uid://cx4sjd1yn5jms" path="res://scripts/start_countdown.gd" id="6_8tnh8"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_5pdws"]
@@ -17,12 +18,14 @@ script = ExtResource("1_fc4h7")
 computer_play_scene = "uid://dqxuyi8lx6pw4"
 local_play_scene = "uid://b821myv7hqira"
 
-[node name="Start Button Vs Computer" type="TextureButton" parent="."]
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="Start Button Vs Computer" type="TextureButton" parent="CanvasModulate"]
 anchors_preset = -1
 anchor_left = 0.3
 anchor_right = 0.3
-offset_left = -128.0
-offset_right = 128.0
+offset_left = 256.0
+offset_right = 512.0
 offset_bottom = 256.0
 grow_horizontal = 2
 toggle_mode = true
@@ -32,8 +35,9 @@ texture_normal = ExtResource("2_558sp")
 texture_pressed = ExtResource("3_0m2xx")
 texture_hover = ExtResource("4_6lya0")
 stretch_mode = 0
+script = ExtResource("5_twu8j")
 
-[node name="Start Button Vs Computer Label" type="Label" parent="Start Button Vs Computer"]
+[node name="Start Button Vs Computer Label" type="Label" parent="CanvasModulate/Start Button Vs Computer"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
@@ -47,12 +51,12 @@ Vs Computer"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Start Button Vs Local" type="TextureButton" parent="."]
+[node name="Start Button Vs Local" type="TextureButton" parent="CanvasModulate"]
 anchors_preset = -1
 anchor_left = 0.7
 anchor_right = 0.7
-offset_left = -128.0
-offset_right = 128.0
+offset_left = 768.0
+offset_right = 1024.0
 offset_bottom = 256.0
 grow_horizontal = 2
 toggle_mode = true
@@ -62,8 +66,9 @@ texture_normal = ExtResource("2_558sp")
 texture_pressed = ExtResource("3_0m2xx")
 texture_hover = ExtResource("4_6lya0")
 stretch_mode = 0
+script = ExtResource("5_twu8j")
 
-[node name="Start Button Vs Local Label" type="Label" parent="Start Button Vs Local"]
+[node name="Start Button Vs Local Label" type="Label" parent="CanvasModulate/Start Button Vs Local"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.1
@@ -77,17 +82,17 @@ Vs Local Friend"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Start Countdown" type="Label" parent="."]
+[node name="Start Countdown" type="Label" parent="CanvasModulate"]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -8.5
-offset_top = -121.0
-offset_right = 8.5
-offset_bottom = -79.0
+offset_left = 616.0
+offset_top = 237.0
+offset_right = 664.0
+offset_bottom = 283.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.93333334)
@@ -102,9 +107,10 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("6_8tnh8")
 
-[node name="Start Countdown Timer" type="Timer" parent="Start Countdown"]
+[node name="Start Countdown Timer" type="Timer" parent="CanvasModulate/Start Countdown"]
 one_shot = true
 
-[connection signal="pressed" from="Start Button Vs Computer" to="." method="_on_start_button_vs_computer_pressed"]
-[connection signal="pressed" from="Start Button Vs Local" to="." method="_on_start_button_vs_local_pressed"]
-[connection signal="timeout" from="Start Countdown/Start Countdown Timer" to="." method="_on_start_countdown_timer_timeout"]
+[connection signal="intro_finished" from="." to="CanvasModulate/Start Button Vs Computer" method="_on_main_menu_hud_intro_finished"]
+[connection signal="pressed" from="CanvasModulate/Start Button Vs Computer" to="." method="_on_start_button_vs_computer_pressed"]
+[connection signal="pressed" from="CanvasModulate/Start Button Vs Local" to="." method="_on_start_button_vs_local_pressed"]
+[connection signal="timeout" from="CanvasModulate/Start Countdown/Start Countdown Timer" to="." method="_on_start_countdown_timer_timeout"]

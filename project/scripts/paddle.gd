@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 	if is_in_group("AI Paddle"):
 		if not ball_to_track:
 			ball_to_track = get_tree().get_first_node_in_group("Ball")
-		ai_movement(delta)
+		if ball_to_track: ai_movement(delta)
 
 	if velocity.y < 0:
 		$AnimatedSprite2D.play("up")
