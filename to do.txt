@@ -14,6 +14,10 @@ make the vs computer input style be changeable
 
 have the very first ball drop in main take longer (to let player mess with controls)
 
+the button hitbox is the 32x32 square, not the button sprite shape
+
+the bounce high score doesn't seem obviously like that, maybe it seems like a goal
+
 
 
 

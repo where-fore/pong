@@ -88,6 +88,9 @@ func _on_timer_timeout() -> void:
 		queue_free()
 
 func drop_in():
+	#so the ball doesn't score or something if it grows near an edge
+	$CollisionShape2D.disabled = true
+	
 	#"self" to scale the parent: the sprite and all colliders
 	#"$Sprite2D" to scale the sprite only: doesn't mess with colliders
 	var target = self
@@ -132,6 +135,9 @@ func finish_drop_in_tween():
 		#clean up the tween and reset
 		drop_in_tween.kill()
 		drop_in_tween = null
+		
+		#turn collision back on, of course
+		$CollisionShape2D.disabled = false
 		
 		#return the ball to its original speed
 		velocity = original_velocity
