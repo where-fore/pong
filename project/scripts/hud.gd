@@ -6,8 +6,11 @@ var has_played_more_than_one_set = false #don't want to pulse the score on first
 
 var score_should_pulse = false
 var pulse_tween : Tween = null
-var original_scale
-var pulse_scale_factor = 1.75
+var pulse_scale_factor = 1.25
+
+
+@onready var bounce_count_label = $"Bounce Count Icon/Bounce Count Label"
+@onready var original_font_size = bounce_count_label.get_theme_font_size("font_size", bounce_count_label.get_class())
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,9 +18,7 @@ func _ready() -> void:
 	HudEvents.ball_bounced.connect(_on_ball_bounced)
 	
 	#gonna do some scale changing later
-	var label = $"Bounce Count Icon/Bounce Count Label"
-	label.pivot_offset = label.get_size() / 2
-	original_scale = label.scale
+	bounce_count_label.pivot_offset = bounce_count_label.get_size() / 2
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -55,25 +56,27 @@ func _on_ball_bounced():
 	else:
 		score_should_pulse = false
 	
-	$"Bounce Count Icon/Bounce Count Label".show()
-	$"Bounce Count Icon/Bounce Count Label".text = str(max_bounces)
+	bounce_count_label.show()
+	bounce_count_label.text = str(max_bounces)
 	
 
 func start_pulse():
-	var to_pulse = $"Bounce Count Icon/Bounce Count Label"
 	pulse_tween = create_tween()
 	pulse_tween.set_trans(Tween.TRANS_SINE)
 	pulse_tween.set_ease(Tween.EASE_IN_OUT)
-	pulse_tween.tween_property(to_pulse, "scale", original_scale*pulse_scale_factor, 0.5)
-	pulse_tween.tween_property(to_pulse, "scale", original_scale, 0.5)
+	pulse_tween.tween_method(_apply_font_size_tween, original_font_size, original_font_size*pulse_scale_factor, 0.5)
+	pulse_tween.tween_method(_apply_font_size_tween, original_font_size*pulse_scale_factor, original_font_size,  0.5)
 	pulse_tween.set_loops() #infinite
-	
-	
+
+
+func _apply_font_size_tween(size_to_scale):
+	bounce_count_label.add_theme_font_size_override("font_size", size_to_scale)
+
+
 func end_pulse():
-	var to_pulse = $"Bounce Count Icon/Bounce Count Label"
 	pulse_tween.kill()
 	pulse_tween = null
-	to_pulse.scale = original_scale
+	bounce_count_label.add_theme_font_size_override("font_size", original_font_size)
 
 
 func _on_start_button_vs_computer_pressed() -> void:

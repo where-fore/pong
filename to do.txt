@@ -3,21 +3,10 @@ pong to do
 definitely do
 -----------------------
 
-the bounce count font looks a little ass, seems blurry around the edges
-	probably scale, look into changing font size tween for real this time - font overrides, theme overrides, themeoverride.fontsize
-
 make the vs computer input style be changeable
 	click on keyboard icon to make it a cursor, and vice versa. popup on load in? if moved cursor a lot recently, pop up again? want to make sure you can see it again if you miss the popup - probably solved by watching playtesters that aren't prompted
 
 -----------------------
-
-
-have the very first ball drop in main take longer (to let player mess with controls)
-
-the button hitbox is the 32x32 square, not the button sprite shape
-
-the bounce high score doesn't seem obviously like that, maybe it seems like a goal
-
 
 
 
@@ -90,6 +79,12 @@ make little tiled background for outside the arena, thinking little star-like tw
 
 some extra polish/juice all around, sound effects? tiny bit of camera shake? tiny bit of paddle movement on hit?
 	instead of ball acceleration, whole game acceleration? paddles move faster, animate faster?
+
+bounce count doesn't look too much like a high score..
+	maybe have a little particle/firework thing when you reach a new high score?
+	maybe have the high score smaller and next to your current bounce count
+the font scaling also looks ok, would be nice to find a nicer looking way to pulse font sizes
+
 
 improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
 or just restructure to rigidbody/character controllers
