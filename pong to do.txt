@@ -3,9 +3,24 @@ pong to do
 definitely do
 -----------------------
 
-make the vs computer input style be changeable
-	click on keyboard icon to make it a cursor, and vice versa. popup on load in? if moved cursor a lot recently, pop up again? want to make sure you can see it again if you miss the popup - probably solved by watching playtesters that aren't prompted
+have button put in, need to implement:
+	have it fade out after a few seconds (and failsafe on score?)
+	have pressing the button send a signal
+	have the hud hear the signal:
+		if 1 ai:
+			left icon swap textures; send signal
+			paddles hear signal and swap, if not right paddle
+		if no ai:
+			both icons swap textures and send signals
+			paddles hear signals and swap
 
+speed up the fade in on game start? or have it be skippable for veterans?
+
+ai variation would be awesome, at least for the main menu
+
+tiny paddle shake or something on hit would be cool
+	
+could consider swapping aesthetics, to the 16xp one. could fade in screen one letter then paddle then ball at a time, have things flash colour on contact
 -----------------------
 
 
@@ -71,22 +86,26 @@ currently i like how to beat the ai you have to think ahead, since it primitivel
 	to make the ai feel reactive, have it explicitly react. call the movement changes on ball bounce? or at least on paddle bounce
 	currently i'm trying to get the ball to exactly the top/bottom 75/25% of the paddle - randomize this so it's less robotic
 
-new sprites?
-
-wall -> build corner, build small wall segment that's good to tile. look into 2d z-fighting so i know if the ball will show over the wall
 make little tiled background for outside the arena, thinking little star-like twinkles or something
 	do this with a perlin noise type background
 
 some extra polish/juice all around, sound effects? tiny bit of camera shake? tiny bit of paddle movement on hit?
 	instead of ball acceleration, whole game acceleration? paddles move faster, animate faster?
+	little particle trail when ball is hit?
 
 bounce count doesn't look too much like a high score..
 	maybe have a little particle/firework thing when you reach a new high score?
 	maybe have the high score smaller and next to your current bounce count
 the font scaling also looks ok, would be nice to find a nicer looking way to pulse font sizes
 
+powerup things for fun: have them spawn in vertical line with the paddle, so if you have time you can go collect them. classic breakout upgrades like bigger paddle, multiball, speed
+	multiball: probably make paddle much bigger and spawn a ton of balls (so you probably save more of them), and then stop balls from respawning after a bit (unless there's one ball)
+		consider messing with the "disable collision for a bit after bounce to avoid double weird bounces" on the paddle
 
-improve high speed collisions: (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
+
+improve high speed collisions:
+
+(in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
 or just restructure to rigidbody/character controllers
 or elsewise
 

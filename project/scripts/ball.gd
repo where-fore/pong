@@ -38,10 +38,9 @@ func _ready() -> void:
 	if up_or_down == 0: up_or_down = -1
 	var random_tilt = randf_range(minimum_tilt, minimum_tilt+random_starting_tilt)
 	
-	var left_or_right = randi_range(0,1)
-	if left_or_right == 0: left_or_right = -1
+	var left_or_right = choose_starting_direction()
 	
-	velocity = Vector2.LEFT*left_or_right + Vector2.UP*up_or_down*random_tilt
+	velocity = Vector2.RIGHT*left_or_right + Vector2.DOWN*up_or_down*random_tilt
 	velocity *= ball_speed
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -78,6 +77,35 @@ func _on_timer_timeout() -> void:
 	emit_signal("destroyed")
 	for ball in get_tree().get_nodes_in_group("Ball"):
 		queue_free()
+
+
+func choose_starting_direction() -> int:
+	#returns -1 for left, 1 for right: it's an x velocity multiplier
+	var left = -1
+	var right = 1
+	
+	#check if solo vs ai game, if so send to ai paddle
+	var paddles = get_tree().get_nodes_in_group("Paddle")
+	var ai_paddles = 0
+	var ai_paddle = null
+	for paddle in paddles:
+		if paddle.is_in_group("AI Paddle"):
+			ai_paddles += 1
+			
+			#save this for later, it overwrites if more than one and that's fine
+			ai_paddle = paddle
+			
+	if ai_paddles == 1:
+		if ai_paddle.is_in_group("AI Paddle"): return right
+		else: return left
+
+	#if we got this far, we aren't a solo ai game, so...
+	#random direction
+	var left_or_right = randi_range(0,1)
+	if left_or_right == 0: return left
+	else: return right
+	
+	#push_error("Got to end of function with no return function called.")
 
 func drop_in(wait_time:float = 0, animation_length:float = ball_spawn_shoot_delay):
 	#so the ball doesn't score or something if it grows near an edge
