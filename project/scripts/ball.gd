@@ -1,7 +1,7 @@
 extends Area2D
 
 signal destroyed
-var velocity = Vector2.ZERO
+var velocity:Vector2 = Vector2.ZERO
 
 #tween instantiations
 var drop_in_tween = null

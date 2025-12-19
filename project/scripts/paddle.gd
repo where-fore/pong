@@ -3,7 +3,7 @@ extends Area2D
 var paddle_speed_factor = 500
 @onready var screen_size = get_viewport_rect().size
 @onready var paddle_size = $CollisionShape2D.shape.get_rect().size
-var paddle_disabled_on_collision_for = 0.5
+var paddle_disabled_on_collision_for = 0.75 #this is also referenced in the bounce fx
 var velocity = Vector2.ZERO
 var ball_to_track = null
 var reaction_time_remaining = 0
@@ -40,12 +40,40 @@ func _process(delta: float) -> void:
 #disable paddle for a bit to make sure there's no shennanigans
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Ball"):
+		
+		shake_paddle(area.velocity.length())
+		
 		$CollisionShape2D.set_deferred("disabled", true)
 		var timer = $"CollisionShape2D/Disable on Contact Timer"
 		timer.start(paddle_disabled_on_collision_for)
 
+
 func _on_disable_on_contact_timer_timeout() -> void:
 	$CollisionShape2D.set_deferred("disabled", false)
+
+
+func shake_paddle(ball_speed:float):
+	#these numbers just felt good, no real math
+	#600 is the ball starting speed at time of comment writing though
+	var x_movement = 6 + max(0, (ball_speed-600) / 25)
+	
+	#reverse the direction if facing the other way, of course
+	if self.is_in_group("Right Paddle"): x_movement *= -1
+	
+	var impact_time = 0.15
+	var original_position = position
+	var target_position = original_position - Vector2(x_movement, 0)
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_QUINT)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "position", target_position, impact_time)
+	await tween.finished
+	
+	#uses collision disable timer, cause that makes sense to me - could use a regular magic number
+	var reset_time = paddle_disabled_on_collision_for - impact_time
+	tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.tween_property(self, "position", original_position, reset_time)
 
 
 func key_movement():

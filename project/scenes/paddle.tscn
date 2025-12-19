@@ -36,7 +36,7 @@ animations = [{
 radius = 2.0
 height = 96.0
 
-[node name="Area2D" type="Area2D"]
+[node name="Paddle" type="Area2D"]
 script = ExtResource("1_2bcmx")
 metadata/_edit_group_ = true
 
