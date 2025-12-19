@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bmed41fkbopnt"]
+[gd_scene load_steps=9 format=3 uid="uid://bmed41fkbopnt"]
 
 [ext_resource type="Script" uid="uid://b0brhoy03ctsb" path="res://scripts/hud.gd" id="1_uo2fv"]
 [ext_resource type="Texture2D" uid="uid://co7cdggohjv1m" path="res://sprites/frame.png" id="3_uo2fv"]
 [ext_resource type="Texture2D" uid="uid://cwj1n8p75ajuq" path="res://sprites/robot.png" id="4_5pdws"]
 [ext_resource type="Texture2D" uid="uid://dinjh2rnost5b" path="res://sprites/cursor.png" id="4_6fi6k"]
 [ext_resource type="Script" uid="uid://dfyy0ewndf2cj" path="res://scripts/input_change_button.gd" id="4_047uy"]
+[ext_resource type="PackedScene" uid="uid://btq1od3n2s8fk" path="res://scenes/input_and_score_tracker.tscn" id="5_hd3ao"]
 [ext_resource type="Texture2D" uid="uid://df648unlk73sg" path="res://sprites/keys.png" id="6_5pdws"]
 [ext_resource type="Texture2D" uid="uid://dgnm4lqdaw24t" path="res://sprites/bounce.png" id="9_0i1j5"]
 
@@ -14,34 +15,10 @@ keys_icon = ExtResource("6_5pdws")
 cursor_icon = ExtResource("4_6fi6k")
 ai_icon = ExtResource("4_5pdws")
 
-[node name="Left Score Icon" type="TextureRect" parent="."]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.01
-anchor_right = 0.5
-anchor_bottom = 0.01
-offset_left = -180.0
-offset_right = -100.0
-offset_bottom = 80.0
-grow_horizontal = 2
-pivot_offset = Vector2(40, 40)
+[node name="Left Score Icon" parent="." instance=ExtResource("5_hd3ao")]
+anchor_left = 0.4
+anchor_right = 0.4
 texture = ExtResource("6_5pdws")
-
-[node name="Left Score Label" type="Label" parent="Left Score Icon"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -56.0
-offset_top = -5.0
-offset_right = 56.0
-offset_bottom = 27.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-horizontal_alignment = 1
 
 [node name="Input Button Parent" type="Control" parent="Left Score Icon"]
 layout_mode = 1
@@ -95,34 +72,10 @@ controls!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Right Score Icon" type="TextureRect" parent="."]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.01
-anchor_right = 0.5
-anchor_bottom = 0.01
-offset_left = 100.0
-offset_right = 180.0
-offset_bottom = 80.0
-grow_horizontal = 2
-pivot_offset = Vector2(40, 40)
+[node name="Right Score Icon" parent="." instance=ExtResource("5_hd3ao")]
+anchor_left = 0.6
+anchor_right = 0.6
 texture = ExtResource("4_6fi6k")
-
-[node name="Right Score Label" type="Label" parent="Right Score Icon"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = -5.0
-offset_right = 16.0
-offset_bottom = 27.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-horizontal_alignment = 1
 
 [node name="Bounce Count Icon" type="TextureRect" parent="."]
 anchors_preset = -1

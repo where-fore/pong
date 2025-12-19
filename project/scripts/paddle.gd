@@ -99,15 +99,14 @@ func cursor_movement():
 	velocity = velocity * paddle_speed_factor
 	
 
-func ai_movement(delta):
-	reaction_time_remaining -= delta
-	if reaction_time_remaining <= 0:
-		reaction_time_remaining = 0 #randf_range(0,0.03)
-		track_ball_endpoint_at_current_velocity()
-
-
-func track_y_directly():
-	go_to_point(ball_to_track.position.y)
+func ai_movement(_delta):
+	track_ball_endpoint_at_current_velocity()
+	
+	#reaction speed just really doesn't look good
+	#reaction_time_remaining -= _delta
+	#if reaction_time_remaining <= 0:
+		#reaction_time_remaining = randf_range(0,0.4)
+		#track_ball_endpoint_at_current_velocity()
 
 
 func track_ball_endpoint_at_current_velocity():
@@ -122,10 +121,15 @@ func track_ball_endpoint_at_current_velocity():
 
 
 func go_to_point(point: float):
-	# divides by 4 to check for middle of each end (75%) (divide by 2 would check ends)
-	if point > (position + paddle_size/4).y:
+	var paddle_center = position.y
+	var paddle_size_y = paddle_size.y
+	#size/2 is the furthest point, so somewhere between center and that
+	#this also doesn't really do anything cause it gets called every frame
+	var impact_point_offset = randf_range(0,paddle_size_y/2)
+	
+	if point > (paddle_center + impact_point_offset):
 		velocity.y = 1
-	elif point < (position - paddle_size/4).y:
+	elif point < (paddle_center - impact_point_offset):
 		velocity.y = -1
 	else: velocity.y = 0
 	

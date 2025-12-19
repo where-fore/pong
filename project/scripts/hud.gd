@@ -58,11 +58,11 @@ func _process(_delta: float) -> void:
 
 
 func _on_right_wall_scored() -> void:
-	update_scores($"Left Score Icon/Left Score Label")
+	update_scores($"Left Score Icon/Score Label")
 
 
 func _on_left_wall_scored() -> void:
-	update_scores($"Right Score Icon/Right Score Label")
+	update_scores($"Right Score Icon/Score Label")
 
 
 func update_scores(label) -> void:
@@ -121,13 +121,13 @@ func change_input(paddle, side:String):
 	if paddle.is_in_group("Keys Paddle"):
 		paddle.remove_from_group("Keys Paddle")
 		paddle.add_to_group("Cursor Paddle")
-		if side == "Left": left_side_icon.texture = cursor_icon
-		elif side == "Right": right_side_icon.texture = cursor_icon
+		if side == "Left": left_side_icon.change_icon(cursor_icon)
+		elif side == "Right": right_side_icon.change_icon(cursor_icon)
 		
 	elif paddle.is_in_group("Cursor Paddle"):
 		paddle.remove_from_group("Cursor Paddle")
 		paddle.add_to_group("Keys Paddle")
-		if side == "Left": left_side_icon.texture = keys_icon
-		elif side == "Right": right_side_icon.texture = keys_icon
+		if side == "Left": left_side_icon.change_icon(keys_icon)
+		elif side == "Right": right_side_icon.change_icon(keys_icon)
 		
 	else: push_error("No input method assigned to paddle at time of input swap method.")

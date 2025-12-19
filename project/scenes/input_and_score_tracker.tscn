@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://btq1od3n2s8fk"]
+
+[ext_resource type="Script" uid="uid://clb3jkj3n85tq" path="res://scripts/input_and_score_tracker.gd" id="1_1i6k8"]
+
+[node name="Score Icon" type="TextureRect"]
+anchors_preset = -1
+anchor_top = 0.01
+anchor_bottom = 0.01
+offset_left = -40.0
+offset_right = 40.0
+offset_bottom = 80.0
+grow_horizontal = 2
+pivot_offset = Vector2(40, 40)
+script = ExtResource("1_1i6k8")
+
+[node name="Score Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -5.0
+offset_right = 16.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1

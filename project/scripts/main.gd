@@ -68,7 +68,7 @@ func fade_menu(target_color:Color, fade_time:float, target:Variant, target_prope
 	#assumes "var fade_in_out_tween = null" was instantiated
 	var fade_in_out_tween = create_tween()
 	fade_in_out_tween.set_trans(Tween.TRANS_CUBIC)
-	fade_in_out_tween.set_ease(Tween.EASE_IN)
+	fade_in_out_tween.set_ease(Tween.EASE_OUT)
 	fade_in_out_tween.tween_property(target, target_property, target_color, fade_time)
 	
 	#if you want to wait for the fade to be finished, await fade_menu()
