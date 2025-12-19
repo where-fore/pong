@@ -1,21 +1,9 @@
 pong to do
 
-definitely do
+current to do:
 -----------------------
 ai variation would be awesome, at least for the main menu
-
-tiny paddle shake or something on hit would be cool
 -----------------------
-
-
-
-
-
-
-
-
-
-
 
 
 

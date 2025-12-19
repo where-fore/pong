@@ -17,10 +17,10 @@ metadata/Main_Menu = true
 [node name="Scene Fade" parent="." instance=ExtResource("3_tbmy8")]
 
 [node name="Left Paddle" parent="." groups=["AI Paddle", "Paddle"] instance=ExtResource("3_jk1qb")]
-position = Vector2(100, 460)
+position = Vector2(100, 560)
 
 [node name="Right Paddle" parent="." groups=["AI Paddle", "Paddle", "Right Paddle"] instance=ExtResource("3_jk1qb")]
-position = Vector2(1180, 260)
+position = Vector2(1180, 160)
 rotation = -3.1415925
 
 [node name="Ball Spawn" type="Marker2D" parent="."]

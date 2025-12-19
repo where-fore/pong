@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 		if not ball_to_track:
 			ball_to_track = get_tree().get_first_node_in_group("Ball")
 		if ball_to_track: ai_movement(delta)
-
+	
 	if velocity.y < 0:
 		$AnimatedSprite2D.play("up")
 	elif velocity.y > 0:
@@ -55,25 +55,25 @@ func _on_disable_on_contact_timer_timeout() -> void:
 func shake_paddle(ball_speed:float):
 	#these numbers just felt good, no real math
 	#600 is the ball starting speed at time of comment writing though
-	var x_movement = 6 + max(0, (ball_speed-600) / 25)
+	var x_movement = 7 + max(0, (ball_speed-600) / 28)
 	
 	#reverse the direction if facing the other way, of course
 	if self.is_in_group("Right Paddle"): x_movement *= -1
 	
 	var impact_time = 0.15
-	var original_position = position
-	var target_position = original_position - Vector2(x_movement, 0)
+	var original_position = position.x
+	var target_position = original_position - x_movement
 	var tween = create_tween()
 	tween.set_trans(Tween.TRANS_QUINT)
 	tween.set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "position", target_position, impact_time)
+	tween.tween_property(self, "position:x", target_position, impact_time)
 	await tween.finished
 	
 	#uses collision disable timer, cause that makes sense to me - could use a regular magic number
 	var reset_time = paddle_disabled_on_collision_for - impact_time
 	tween = create_tween()
 	tween.set_trans(Tween.TRANS_LINEAR)
-	tween.tween_property(self, "position", original_position, reset_time)
+	tween.tween_property(self, "position:x", original_position, reset_time)
 
 
 func key_movement():
