@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dqxuyi8lx6pw4"]
+[gd_scene load_steps=8 format=3 uid="uid://dqxuyi8lx6pw4"]
 
 [ext_resource type="Script" uid="uid://bhhcr0tk2y0iq" path="res://scripts/main.gd" id="1_muj5o"]
 [ext_resource type="PackedScene" uid="uid://de78u6sepvyir" path="res://scenes/ball.tscn" id="2_teyol"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://buh7diarn0uee" path="res://scenes/wall.tscn" id="4_ad7tn"]
 [ext_resource type="PackedScene" uid="uid://bmed41fkbopnt" path="res://scenes/hud.tscn" id="5_xxm1n"]
 [ext_resource type="PackedScene" uid="uid://bjbn4uxeicuul" path="res://scenes/pause_menu.tscn" id="6_8ff3m"]
-[ext_resource type="Texture2D" uid="uid://cwj1n8p75ajuq" path="res://sprites/robot.png" id="6_teyol"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_muj5o")
@@ -42,13 +41,6 @@ collision_layer = 3
 
 [node name="HUD" parent="." instance=ExtResource("5_xxm1n")]
 
-[node name="Right Score Icon" parent="HUD" index="1"]
-texture = ExtResource("6_teyol")
-
-[node name="Bounce Count Label" parent="HUD/Bounce Count Icon" index="0"]
-offset_top = -16.0
-offset_bottom = 16.0
-
 [node name="PauseMenu" parent="." instance=ExtResource("6_8ff3m")]
 visible = false
 
@@ -59,6 +51,5 @@ position = Vector2(640, 360)
 [connection signal="scored" from="Right Wall" to="HUD" method="_on_right_wall_scored"]
 [connection signal="scored" from="Left Wall" to="." method="_on_left_wall_scored"]
 [connection signal="scored" from="Left Wall" to="HUD" method="_on_left_wall_scored"]
+[connection signal="input_change_button_pressed" from="HUD" to="." method="_on_hud_input_change_button_pressed"]
 [connection signal="back_to_main_menu" from="PauseMenu" to="." method="_on_pause_menu_back_to_main_menu"]
-
-[editable path="HUD"]

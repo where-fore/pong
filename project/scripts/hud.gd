@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal input_change_button_pressed
+
 var max_bounces = 0
 var bounces_this_set = 0
 var has_played_more_than_one_set = false #don't want to pulse the score on first play
@@ -8,6 +10,13 @@ var score_should_pulse = false
 var pulse_tween : Tween = null
 var pulse_scale_factor = 1.25
 
+@export var keys_icon = CompressedTexture2D
+@export var cursor_icon = CompressedTexture2D
+@export var ai_icon = CompressedTexture2D
+var side_check_left = "Left"
+var side_check_right = "Right"
+@onready var left_side_icon = $"Left Score Icon"
+@onready var right_side_icon = $"Right Score Icon"
 
 @onready var bounce_count_label = $"Bounce Count Icon/Bounce Count Label"
 @onready var original_font_size = bounce_count_label.get_theme_font_size("font_size", bounce_count_label.get_class())
@@ -19,6 +28,23 @@ func _ready() -> void:
 	
 	#gonna do some scale changing later
 	bounce_count_label.pivot_offset = bounce_count_label.get_size() / 2
+	
+	#change icons to match groupings on ready
+	for paddle in get_tree().get_nodes_in_group("Paddle"):
+		if paddle.is_in_group("Right Paddle"):
+			if paddle.is_in_group("Keys Paddle"): right_side_icon.texture = keys_icon
+			elif paddle.is_in_group("Cursor Paddle"): right_side_icon.texture = cursor_icon
+			elif paddle.is_in_group("AI Paddle"): right_side_icon.texture = ai_icon
+			else: push_error("No valid input grouping for paddle")
+			
+		elif not paddle.is_in_group("Right Paddle"):
+			if paddle.is_in_group("Keys Paddle"):
+				if paddle.is_in_group("Keys Paddle"): right_side_icon.texture = keys_icon
+				elif paddle.is_in_group("Cursor Paddle"): right_side_icon.texture = cursor_icon
+				elif paddle.is_in_group("AI Paddle"): right_side_icon.texture = ai_icon
+				else: push_error("No valid input grouping for paddle")
+		
+		else: push_error("No valid side grouping for paddle")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -79,9 +105,29 @@ func end_pulse():
 	bounce_count_label.add_theme_font_size_override("font_size", original_font_size)
 
 
-func _on_start_button_vs_computer_pressed() -> void:
-	pass # Replace with function body.
+func _on_input_change_button_pressed() -> void:
+	for paddle in get_tree().get_nodes_in_group("Paddle"):
+		if paddle.is_in_group("Right Paddle") and not paddle.is_in_group("AI Paddle"):
+			change_input(paddle, side_check_right)
+		if not paddle.is_in_group("Right Paddle") and not paddle.is_in_group("AI Paddle"):
+			change_input(paddle, side_check_left)
+	emit_signal("input_change_button_pressed")
 
 
-func _on_start_button_vs_local_pressed() -> void:
-	pass # Replace with function body.
+func change_input(paddle, side:String):
+	if side != side_check_left and side != side_check_right:
+		push_error("No side assigned to paddle input swap method.")
+	
+	if paddle.is_in_group("Keys Paddle"):
+		paddle.remove_from_group("Keys Paddle")
+		paddle.add_to_group("Cursor Paddle")
+		if side == "Left": left_side_icon.texture = cursor_icon
+		elif side == "Right": right_side_icon.texture = cursor_icon
+		
+	elif paddle.is_in_group("Cursor Paddle"):
+		paddle.remove_from_group("Cursor Paddle")
+		paddle.add_to_group("Keys Paddle")
+		if side == "Left": left_side_icon.texture = keys_icon
+		elif side == "Right": right_side_icon.texture = keys_icon
+		
+	else: push_error("No input method assigned to paddle at time of input swap method.")

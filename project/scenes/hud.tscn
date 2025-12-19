@@ -1,13 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmed41fkbopnt"]
+[gd_scene load_steps=8 format=3 uid="uid://bmed41fkbopnt"]
 
 [ext_resource type="Script" uid="uid://b0brhoy03ctsb" path="res://scripts/hud.gd" id="1_uo2fv"]
 [ext_resource type="Texture2D" uid="uid://co7cdggohjv1m" path="res://sprites/frame.png" id="3_uo2fv"]
+[ext_resource type="Texture2D" uid="uid://cwj1n8p75ajuq" path="res://sprites/robot.png" id="4_5pdws"]
 [ext_resource type="Texture2D" uid="uid://dinjh2rnost5b" path="res://sprites/cursor.png" id="4_6fi6k"]
+[ext_resource type="Script" uid="uid://dfyy0ewndf2cj" path="res://scripts/input_change_button.gd" id="4_047uy"]
 [ext_resource type="Texture2D" uid="uid://df648unlk73sg" path="res://sprites/keys.png" id="6_5pdws"]
 [ext_resource type="Texture2D" uid="uid://dgnm4lqdaw24t" path="res://sprites/bounce.png" id="9_0i1j5"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_uo2fv")
+keys_icon = ExtResource("6_5pdws")
+cursor_icon = ExtResource("4_6fi6k")
+ai_icon = ExtResource("4_5pdws")
 
 [node name="Left Score Icon" type="TextureRect" parent="."]
 anchors_preset = -1
@@ -39,7 +44,6 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
 [node name="Input Button Parent" type="Control" parent="Left Score Icon"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,24 +55,27 @@ grow_vertical = 2
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -2.0
+anchor_left = -1.5
 anchor_right = 1.5
-anchor_bottom = 2.5
+anchor_bottom = 2.0
 offset_top = -4.0
 offset_right = 8.0
 offset_bottom = 4.0
 grow_vertical = 2
+focus_mode = 0
 button_mask = 3
 
 [node name="Border" type="TextureRect" parent="Left Score Icon/Input Button Parent"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = -2.0
+anchor_left = -1.5
 anchor_right = 1.5
-anchor_bottom = 2.5
+anchor_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("3_uo2fv")
+script = ExtResource("4_047uy")
 
 [node name="Input Change Label" type="Label" parent="Left Score Icon/Input Button Parent/Border"]
 layout_mode = 1
@@ -83,7 +90,7 @@ offset_right = 96.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Click or Tap
-here to swap
+here to set
 controls!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -145,3 +152,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
+
+[connection signal="pressed" from="Left Score Icon/Input Button Parent/Input Change Button" to="." method="_on_input_change_button_pressed"]
+[connection signal="pressed" from="Left Score Icon/Input Button Parent/Input Change Button" to="Left Score Icon/Input Button Parent/Border" method="_on_input_change_button_pressed"]

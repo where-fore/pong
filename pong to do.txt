@@ -2,30 +2,10 @@ pong to do
 
 definitely do
 -----------------------
-
-have button put in, need to implement:
-	have it fade out after a few seconds (and failsafe on score?)
-	have pressing the button send a signal
-	have the hud hear the signal:
-		if 1 ai:
-			left icon swap textures; send signal
-			paddles hear signal and swap, if not right paddle
-		if no ai:
-			both icons swap textures and send signals
-			paddles hear signals and swap
-
-speed up the fade in on game start? or have it be skippable for veterans?
-
 ai variation would be awesome, at least for the main menu
 
 tiny paddle shake or something on hit would be cool
-	
-could consider swapping aesthetics, to the 16xp one. could fade in screen one letter then paddle then ball at a time, have things flash colour on contact
 -----------------------
-
-
-
-
 
 
 
