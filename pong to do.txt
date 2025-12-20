@@ -38,35 +38,38 @@ working notes:
 
 
 
-
-
-
 would be nice
 -----------------------
-ai: try to get some sort of variation so the main menu looks for dynamic, some sort of reaction speed based movement - or maybe some +- error in its angle calculations? maybe do some smarter raycast stuff https://www.youtube.com/watch?v=tjSuQzbarAQ?
-currently i like how to beat the ai you have to think ahead, since it primitively sees where the ball will be. i do like the idea of different ai patterns/styles/presets that have their own flair. maybe 3 with scaling levels of difficulty?
-	maybe one perfect (for solo bounce count high scores), one accessible (like it is now) for reasonable competitive challenge, and one human-like with a name? try to beat all the characters
-	to make the ai feel reactive, have it explicitly react. call the movement changes on ball bounce? or at least on paddle bounce
-	currently i'm trying to get the ball to exactly the top/bottom 75/25% of the paddle - randomize this so it's less robotic
+sound! effects on bounce (pitching up like peggle probably), music, button press sound effects
 
+
+ai: currently i like how to beat the ai you have to think ahead, since it primitively sees where the ball will be. i do like the idea of different ai patterns/styles/presets that have their own flair. maybe 3 with scaling levels of difficulty?
+	maybe one perfect (for solo bounce count high scores), one accessible (like it is now) for reasonable competitive challenge, and one human-like with a name? try to beat all the characters
+		perfect, use the modulo screen size reflection bounding as explained in the paddle movement comment
+	
+	
 make little tiled background for outside the arena, thinking little star-like twinkles or something
 	do this with a perlin noise type background
 
-some extra polish/juice all around, sound effects? tiny bit of camera shake? tiny bit of paddle movement on hit?
-	instead of ball acceleration, whole game acceleration? paddles move faster, animate faster?
-	little particle trail when ball is hit?
+
+instead of ball acceleration, whole game acceleration? paddles move faster, animate faster?
+
+
+little particle trail when ball is hit?
+
 
 bounce count doesn't look too much like a high score..
 	maybe have a little particle/firework thing when you reach a new high score?
 	maybe have the high score smaller and next to your current bounce count
 the font scaling also looks ok, would be nice to find a nicer looking way to pulse font sizes
 
+
 powerup things for fun: have them spawn in vertical line with the paddle, so if you have time you can go collect them. classic breakout upgrades like bigger paddle, multiball, speed
 	multiball: probably make paddle much bigger and spawn a ton of balls (so you probably save more of them), and then stop balls from respawning after a bit (unless there's one ball)
 		consider messing with the "disable collision for a bit after bounce to avoid double weird bounces" on the paddle
 
 
-improve high speed collisions:
+improve high speed collisions (currently they are fine, but iffy. they rely on stretching the ball, so wouldn't work for explicit pixel art)
 
 (in ball process - before moving from position to position(delta), send out a raycast and see if there's any collision in the line between position and position(delta). if so, move and then ensure collision signal is sent) (test by removing ball tilt and yeeting balls into paddles at untenable speeds)
 or just restructure to rigidbody/character controllers
