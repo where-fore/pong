@@ -3,7 +3,7 @@ pong to do
 current to do:
 -----------------------
 
-
+tune paddle hit - make the recovery "bounce" not linear?
 
 -----------------------
 -----------------------

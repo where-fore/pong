@@ -2,13 +2,14 @@ extends Area2D
 
 var paddle_speed_factor = 500
 @onready var screen_height = get_viewport_rect().size.y
+@onready var screen_middle = screen_height/2
 @onready var paddle_height = $CollisionShape2D.shape.get_rect().size.y
 @onready var min_screen_can_travel = paddle_height/2
 @onready var max_screen_can_travel = (screen_height - paddle_height/2)
 var paddle_disabled_on_collision_for = 0.75 #this is also referenced in the bounce fx
 var velocity = Vector2.ZERO
 var ball_to_track:Node2D = null
-@onready var y_to_go_to = screen_height/2 #instantiated to center
+@onready var y_to_go_to = screen_middle
 var reaction_time_min = 0.1 #seconds
 var reaction_time_max = 0.25
 
@@ -58,8 +59,10 @@ func _on_disable_on_contact_timer_timeout() -> void:
 
 func shake_paddle(ball_speed:float):
 	#these numbers just felt good, no real math
+	
 	#600 is the ball starting speed at time of comment writing though
-	var x_movement = 7 + max(0, (ball_speed-600) / 28)
+	var x_movement_baseline = 7
+	var x_movement = x_movement_baseline + max(0, (ball_speed-600) / 40)
 	
 	#reverse the direction if facing the other way, of course
 	if self.is_in_group("Right Paddle"): x_movement *= -1
@@ -74,9 +77,10 @@ func shake_paddle(ball_speed:float):
 	await tween.finished
 	
 	#uses collision disable timer, cause that makes sense to me - could use a regular magic number
-	var reset_time = paddle_disabled_on_collision_for - impact_time
+	var reset_time = (paddle_disabled_on_collision_for - impact_time) + 0.7
 	tween = create_tween()
-	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_trans(Tween.TRANS_ELASTIC)
+	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(self, "position:x", original_position, reset_time)
 
 
@@ -119,7 +123,7 @@ func ai_movement(_delta:float, override_reaction:bool = false):
 			#track_ball_endpoint_at_current_velocity()
 	
 	#go to my goal
-	#with a lil 2px padding to clean up floating point issues
+	#with a lil padding to clean up floating point issues
 	if y_to_go_to-2 > position.y:
 		velocity.y = 1
 	elif y_to_go_to+2 < position.y:
@@ -135,33 +139,40 @@ func track_ball_endpoint_at_current_velocity():
 	#track a ball
 	if not ball_to_track: ball_to_track = get_tree().get_first_node_in_group("Ball")
 	
-	#if the ball is to the right of the paddle, and is moving right, go to center
+	#if the ball is to the right of the paddle, and is moving right; go to center
 	if ball_to_track.position.x > position.x and ball_to_track.velocity.x > 0:
-		set_goal_to_new_y(360)
-	#if the ball is to the left of the paddle, and is moving left, go to center
+		y_to_go_to = y_coordinate_into_goal(screen_middle)
+		
+	#if the ball is to the left of the paddle, and is moving left; go to center
 	elif ball_to_track.position.x < position.x and ball_to_track.velocity.x < 0:
-		set_goal_to_new_y(360)
+		y_to_go_to = y_coordinate_into_goal(screen_middle)
+		
 	#otherwise, go catch the ball
 	else:
 		var x_ball_will_travel = position.x - ball_to_track.position.x
 		var time_to_reach_x = x_ball_will_travel/ball_to_track.velocity.x
 		var y_at_current_speed = ball_to_track.velocity.y * time_to_reach_x + ball_to_track.position.y
 
-		set_goal_to_new_y(y_at_current_speed)
+		y_to_go_to = y_coordinate_into_goal(y_at_current_speed)
 
 
-func set_goal_to_new_y(y_value: float):	
+func y_coordinate_into_goal(y_value: float) -> int:
+	#returns a rounded int of a y coordinate that is somewhere on screen
+	#and somewhere randomly non-centered on the paddle
+	
 	#move the goal a bit from the center of the paddle (for angular action)
 	#size/2 is the furthest end point, so somewhere between center and that
-	#okay /2 is too pixel perfect
-	var offset_range = paddle_height/2.5
+	#okay /2 is too pixel perfect... bigger denominator
+	var offset_range = paddle_height/2.3
 	#could change this to a normal distribution, centering on 75%?
 	var impact_point_offset = randf_range(-offset_range,offset_range)
 	
-	y_to_go_to = y_value + impact_point_offset
+	var goal = y_value + impact_point_offset
 	#clamp to screen size, so it doesn't keep moving at edge of screen
-	if y_to_go_to > max_screen_can_travel: y_to_go_to = max_screen_can_travel
-	if y_to_go_to < min_screen_can_travel: y_to_go_to = min_screen_can_travel
+	if goal > max_screen_can_travel: goal = max_screen_can_travel
+	if goal < min_screen_can_travel: goal = min_screen_can_travel
+	roundi(goal)
+	return goal
 
 
 func _on_ai_event():

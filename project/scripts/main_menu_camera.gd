@@ -3,7 +3,7 @@ extends Camera2D
 var pan_amount = 60
 var pan_time = 12
 
-var first_zoom_time = 3.8
+var first_zoom_time = 3.9
 var original_zoom = Vector2(0.95, 0.95)
 var zoom_amount = 1.10
 var zoom_time = 6
