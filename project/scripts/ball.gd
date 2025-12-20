@@ -62,10 +62,12 @@ func _on_area_entered(area: Area2D) -> void:
 		rotate_ball()
 		
 		HudEvents.ball_bounced.emit()
+		AiEvents.ball_rebound.emit()
 		
 	elif area.is_in_group("Bounce Wall"):
 		velocity *= Vector2(1,-1)
 		rotate_ball()
+		AiEvents.ball_rebound.emit()
 	
 	#failsafe: checks if it has collided with something recently
 	#restarts timer when colliding with anything
@@ -164,6 +166,7 @@ func finish_drop_in_tween():
 		
 		#return the ball to its original speed
 		velocity = original_velocity
+		AiEvents.ball_fired.emit()
 		$Timer.start() #restart collision timer
 		
 		#clear saved data

@@ -1,18 +1,23 @@
 extends Area2D
 
 var paddle_speed_factor = 500
-@onready var screen_size = get_viewport_rect().size
-@onready var paddle_size = $CollisionShape2D.shape.get_rect().size
+@onready var screen_height = get_viewport_rect().size.y
+@onready var paddle_height = $CollisionShape2D.shape.get_rect().size.y
+@onready var min_screen_can_travel = paddle_height/2
+@onready var max_screen_can_travel = (screen_height - paddle_height/2)
 var paddle_disabled_on_collision_for = 0.75 #this is also referenced in the bounce fx
 var velocity = Vector2.ZERO
-var ball_to_track = null
-var reaction_time_remaining = 0
+var ball_to_track:Node2D = null
+@onready var y_to_go_to = screen_height/2 #instantiated to center
+var reaction_time_min = 0.1 #seconds
+var reaction_time_max = 0.25
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if is_in_group("Right Paddle"):
 		$AnimatedSprite2D.flip_v = true #because the node in scene is just rotated 180 degrees
-
+	AiEvents.ball_rebound.connect(_on_ai_event)
+	AiEvents.ball_fired.connect(_on_ai_event)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -24,9 +29,7 @@ func _process(delta: float) -> void:
 		cursor_movement()
 			
 	if is_in_group("AI Paddle"):
-		if not ball_to_track:
-			ball_to_track = get_tree().get_first_node_in_group("Ball")
-		if ball_to_track: ai_movement(delta)
+		ai_movement(delta)
 	
 	if velocity.y < 0:
 		$AnimatedSprite2D.play("up")
@@ -35,8 +38,9 @@ func _process(delta: float) -> void:
 	else: $AnimatedSprite2D.play("default")
 	
 	position += velocity * delta
-	position = position.clamp(Vector2.ZERO+paddle_size/2, (screen_size - paddle_size/2))
-
+	if position.y > max_screen_can_travel: position.y = max_screen_can_travel
+	if position.y < min_screen_can_travel: position.y = min_screen_can_travel
+	
 #disable paddle for a bit to make sure there's no shennanigans
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Ball"):
@@ -99,38 +103,71 @@ func cursor_movement():
 	velocity = velocity * paddle_speed_factor
 	
 
-func ai_movement(_delta):
-	track_ball_endpoint_at_current_velocity()
+func ai_movement(_delta:float, override_reaction:bool = false):
+	#set a goal
 	
-	#reaction speed just really doesn't look good
-	#reaction_time_remaining -= _delta
-	#if reaction_time_remaining <= 0:
-		#reaction_time_remaining = randf_range(0,0.4)
-		#track_ball_endpoint_at_current_velocity()
+	#can override checking reaction time, like on ball rebound
+	if override_reaction: track_ball_endpoint_at_current_velocity()
+	##check if i can react yet
+	#elif not override_reaction:
+		##if not, do nothing but reduce wait time
+		#if reaction_time_remaining > 0:
+			#reaction_time_remaining -= delta
+		##if so, reset reaction time, and react
+		#if reaction_time_remaining <= 0:
+			#reaction_time_remaining = randf_range(0.1,0.4)
+			#track_ball_endpoint_at_current_velocity()
+	
+	#go to my goal
+	#with a lil 2px padding to clean up floating point issues
+	if y_to_go_to-2 > position.y:
+		velocity.y = 1
+	elif y_to_go_to+2 < position.y:
+		velocity.y = -1
+	else: velocity.y = 0
+	velocity.y = velocity.y * paddle_speed_factor
 
 
 func track_ball_endpoint_at_current_velocity():
-	var x = abs(position.x - ball_to_track.position.x)
-	var y = abs(position.y - ball_to_track.position.y)
-	var time_to_reach_x = x/ball_to_track.velocity.x
-	var time_to_reach_y = y/ball_to_track.velocity.y
-	var time_to_react = min(abs(time_to_reach_x), abs(time_to_reach_y))
-	var y_at_current_speed = ball_to_track.velocity.y * time_to_react + ball_to_track.position.y
-
-	go_to_point(y_at_current_speed)
-
-
-func go_to_point(point: float):
-	var paddle_center = position.y
-	var paddle_size_y = paddle_size.y
-	#size/2 is the furthest point, so somewhere between center and that
-	#this also doesn't really do anything cause it gets called every frame
-	var impact_point_offset = randf_range(0,paddle_size_y/2)
+	#this currently ignores bounces, which i think is good
+	#if i wanted it to think of bounces, i could check if the target y is outside of play area, if so by how much, then subtract that from play area height, to get estimated. can use modulo for multiple bounces
 	
-	if point > (paddle_center + impact_point_offset):
-		velocity.y = 1
-	elif point < (paddle_center - impact_point_offset):
-		velocity.y = -1
-	else: velocity.y = 0
+	#track a ball
+	if not ball_to_track: ball_to_track = get_tree().get_first_node_in_group("Ball")
 	
-	velocity = velocity * paddle_speed_factor
+	#if the ball is to the right of the paddle, and is moving right, go to center
+	if ball_to_track.position.x > position.x and ball_to_track.velocity.x > 0:
+		set_goal_to_new_y(360)
+	#if the ball is to the left of the paddle, and is moving left, go to center
+	elif ball_to_track.position.x < position.x and ball_to_track.velocity.x < 0:
+		set_goal_to_new_y(360)
+	#otherwise, go catch the ball
+	else:
+		var x_ball_will_travel = position.x - ball_to_track.position.x
+		var time_to_reach_x = x_ball_will_travel/ball_to_track.velocity.x
+		var y_at_current_speed = ball_to_track.velocity.y * time_to_reach_x + ball_to_track.position.y
+
+		set_goal_to_new_y(y_at_current_speed)
+
+
+func set_goal_to_new_y(y_value: float):	
+	#move the goal a bit from the center of the paddle (for angular action)
+	#size/2 is the furthest end point, so somewhere between center and that
+	#okay /2 is too pixel perfect
+	var offset_range = paddle_height/2.5
+	#could change this to a normal distribution, centering on 75%?
+	var impact_point_offset = randf_range(-offset_range,offset_range)
+	
+	y_to_go_to = y_value + impact_point_offset
+	#clamp to screen size, so it doesn't keep moving at edge of screen
+	if y_to_go_to > max_screen_can_travel: y_to_go_to = max_screen_can_travel
+	if y_to_go_to < min_screen_can_travel: y_to_go_to = min_screen_can_travel
+
+
+func _on_ai_event():
+	if self.is_in_group("AI Paddle"):
+		#wait a lil for fake reaction time
+		var wait_time = randf_range(reaction_time_min,reaction_time_max)
+		await get_tree().create_timer(wait_time).timeout
+		
+		ai_movement(0, true)

@@ -2,18 +2,13 @@ pong to do
 
 current to do:
 -----------------------
-ai variation would be awesome, at least for the main menu
+
+
+
 -----------------------
-
-
-
-
-
-
-
-
-
-
+-----------------------
+working notes:
+-----------------------
 
 
 

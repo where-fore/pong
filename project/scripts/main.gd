@@ -4,7 +4,7 @@ extends Node
 @onready var fade_parent = $"Scene Fade/ColorRect"
 
 var fade_time_main_menu_to_black = 2
-var fade_time_game_from_black = 1
+var fade_time_game_from_black = 0.25
 
 signal input_button_first_pressed
 var input_button_pressed_once = false
