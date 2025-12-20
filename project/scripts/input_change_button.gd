@@ -11,6 +11,9 @@ var bounce_tween = null
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
+	#set pivot to center, set in editor - so i can grow it later
+	pivot_offset = size / 2
+	
 	#save scale that was set in editor, then set to 0 to prep fade in
 	var original_property_value = self.scale
 	self.scale = Vector2.ZERO

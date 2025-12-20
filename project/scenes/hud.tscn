@@ -20,58 +20,6 @@ anchor_left = 0.4
 anchor_right = 0.4
 texture = ExtResource("6_5pdws")
 
-[node name="Input Button Parent" type="Control" parent="Left Score Icon"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Input Change Button" type="Button" parent="Left Score Icon/Input Button Parent"]
-modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.5
-anchor_right = 1.5
-anchor_bottom = 2.0
-offset_top = -4.0
-offset_right = 8.0
-offset_bottom = 4.0
-grow_vertical = 2
-focus_mode = 0
-button_mask = 3
-
-[node name="Border" type="TextureRect" parent="Left Score Icon/Input Button Parent"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.5
-anchor_right = 1.5
-anchor_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("3_uo2fv")
-script = ExtResource("4_047uy")
-
-[node name="Input Change Label" type="Label" parent="Left Score Icon/Input Button Parent/Border"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -126.0
-offset_right = 96.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "Click or Tap
-here to set
-controls!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Right Score Icon" parent="." instance=ExtResource("5_hd3ao")]
 anchor_left = 0.6
 anchor_right = 0.6
@@ -106,5 +54,66 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 
-[connection signal="pressed" from="Left Score Icon/Input Button Parent/Input Change Button" to="." method="_on_input_change_button_pressed"]
-[connection signal="pressed" from="Left Score Icon/Input Button Parent/Input Change Button" to="Left Score Icon/Input Button Parent/Border" method="_on_input_change_button_pressed"]
+[node name="Input Button Parent" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.36
+anchor_top = 0.15
+anchor_right = 0.36
+anchor_bottom = 0.15
+offset_bottom = 1.2397766e-05
+grow_horizontal = 2
+
+[node name="Input Change Button" type="Button" parent="Input Button Parent"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -112.5
+offset_top = -94.999985
+offset_right = 112.5
+offset_bottom = 94.999985
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+button_mask = 3
+
+[node name="Border" type="TextureRect" parent="Input Button Parent"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.25
+offset_top = -101.249985
+offset_right = 120.25
+offset_bottom = 101.249985
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_uo2fv")
+script = ExtResource("4_047uy")
+
+[node name="Input Change Label" type="Label" parent="Input Button Parent/Border"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -126.0
+offset_right = 96.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Click or Tap
+here to set
+controls!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Input Button Parent/Input Change Button" to="." method="_on_input_change_button_pressed"]
+[connection signal="pressed" from="Input Button Parent/Input Change Button" to="Input Button Parent/Border" method="_on_input_change_button_pressed"]
